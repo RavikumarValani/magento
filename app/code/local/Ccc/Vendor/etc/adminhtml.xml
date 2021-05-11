@@ -23,6 +23,30 @@
 					<action>*/vendor_set</action>
 				</vendor_set>
 
+				<product>
+					<title>Vendor product</title>
+					<sort_order>100</sort_order>
+					<children>
+						<product>
+							<title>Manage Product</title>
+							<sort_order>100</sort_order>
+							<action>*/product</action>
+						</product>
+						
+						<vendor_attribute>
+							<title>Manage Attribute</title>
+							<sort_order>100</sort_order>
+							<action>*/product_attribute</action>
+						</vendor_attribute>
+		
+						<vendor_set>
+							<title>Manage Attribute set</title>
+							<sort_order>100</sort_order>
+							<action>*/product_set</action>
+						</vendor_set>
+					</children>
+				</product>
+
 			</children>
 		</vendor>
 	</menu>

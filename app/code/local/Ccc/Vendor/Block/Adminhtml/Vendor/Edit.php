@@ -6,7 +6,6 @@ class Ccc_Vendor_Block_Adminhtml_Vendor_Edit extends Mage_Adminhtml_Block_Widget
     {
         $this->_blockGroup = 'vendor';
         $this->_controller = 'adminhtml_vendor';
-        $this->_headerText = 'Add Vendor';
         parent::__construct();
     }
 }

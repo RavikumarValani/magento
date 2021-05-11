@@ -186,11 +186,5 @@ class Ccc_Vendor_Adminhtml_Vendor_setController extends Mage_Adminhtml_Controlle
         }
     }
 
-    protected function _setForcedFormKeyActions($actionNames)
-    {
-        $actionNames = (is_array($actionNames)) ? $actionNames: (array)$actionNames;
-        $actionNames = array_merge($this->_forcedFormKeyActions, $actionNames);
-        $actionNames = array_unique($actionNames);
-        $this->_forcedFormKeyActions = $actionNames;
-    }
+
 }

@@ -8,7 +8,7 @@ class Ccc_Vendor_Block_Adminhtml_Vendor_Edit_Tabs extends Mage_Adminhtml_Block_W
     {
       parent::__construct();
       $this->setDestElementId('edit_form');
-      $this->setTitle(Mage::helper('vendor')->__('vendor Information'));
+      $this->setTitle(Mage::helper('vendor')->__('Vendor Information'));
     }
     public function getVendor()
     {

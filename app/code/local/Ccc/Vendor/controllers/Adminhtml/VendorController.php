@@ -115,7 +115,7 @@ class Ccc_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Ac
 
         } catch (Exception $e) {
             Mage::logException($e);
-            $Mage::getSingleton('core/session')->addError($e->getMessage());
+            Mage::getSingleton('core/session')->addError($e->getMessage());
         }
         
         $this->_redirect('*/*/');
