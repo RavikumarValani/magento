@@ -6,8 +6,8 @@ class Ccc_Compile_Block_Adminhtml_Compile_Attribute_Edit extends Mage_Adminhtml_
     public function __construct()
     {
         $this->_objectId = 'attribute_id';
-        $this->_blockGroup = 'vendor';
-        $this->_controller = 'adminhtml_vendor_attribute';
+        $this->_blockGroup = 'compile';
+        $this->_controller = 'adminhtml_compile_attribute';
         parent::__construct();
 
         if($this->getRequest()->getParam('popup')) {
@@ -15,7 +15,7 @@ class Ccc_Compile_Block_Adminhtml_Compile_Attribute_Edit extends Mage_Adminhtml_
             $this->_addButton(
                 'close',
                 array(
-                    'label'     => Mage::helper('vendor')->__('Close Window'),
+                    'label'     => Mage::helper('compile')->__('Close Window'),
                     'class'     => 'cancel',
                     'onclick'   => 'window.close()',
                     'level'     => -1
@@ -26,7 +26,7 @@ class Ccc_Compile_Block_Adminhtml_Compile_Attribute_Edit extends Mage_Adminhtml_
         if (! Mage::registry('entity_attribute')->getIsUserDefined()) {
             $this->_removeButton('delete');
         } else {
-            $this->_updateButton('delete', 'label', Mage::helper('vendor')->__('Delete Attribute'));
+            $this->_updateButton('delete', 'label', Mage::helper('compile')->__('Delete Attribute'));
         }
     }
 
@@ -37,10 +37,10 @@ class Ccc_Compile_Block_Adminhtml_Compile_Attribute_Edit extends Mage_Adminhtml_
             if (is_array($frontendLabel)) {
                 $frontendLabel = $frontendLabel[0];
             }
-            return Mage::helper('vendor')->__('Edit Vendor Attribute "%s"', $this->escapeHtml($frontendLabel));
+            return Mage::helper('compile')->__('Edit Compile Attribute "%s"', $this->escapeHtml($frontendLabel));
         }
         else {
-            return Mage::helper('vendor')->__('New Vendor Attribute');
+            return Mage::helper('compile')->__('New Compile Attribute');
         }
     }
 
