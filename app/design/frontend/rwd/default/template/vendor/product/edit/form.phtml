@@ -1,0 +1,23 @@
+<div style="float: left"><h2>Form Product Information</h2></div>
+<form method="POST" action="<?php echo $this->getSaveUrl(); ?>">
+	<?php echo $this->getBlockHtml('formkey')?>
+	<div style="float: right;">
+		<button class="button" type="submit">Save</button>
+		<a class="button" href="<?php echo $this->getBackUrl(); ?>">Back</a>
+		<?php if($this->isDeleteVisible()) : ?>
+			<a class="button" id="id_a34c0dfcc9ed39a7290f6fae52a6a784" href="<?php echo $this->getDeleteUrl(); ?>">Delete</a>
+		<?php endif ?>
+	</div>
+	<div id="vendorProductForm">
+		
+	</div>
+</form>
+<style>
+#id_a34c0dfcc9ed39a7290f6fae52a6a784{
+		border:none;
+		color:white;
+		padding:5px;
+		background:#d9272e;
+		margin-bottom:4px;
+    }
+</style>
