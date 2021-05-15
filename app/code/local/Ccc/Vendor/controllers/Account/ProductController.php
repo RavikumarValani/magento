@@ -79,6 +79,7 @@ class Ccc_Vendor_Account_ProductController extends Mage_Core_Controller_Front_Ac
             $isSku = Mage::getModel('vendor/product')->getResource()->getIdBySku($sku);
             $isSkuCatalog = Mage::getModel('catalog/product')->getResource()->getIdBySku($sku);
             $data = $this->getRequest()->getPost();
+            
             $model = Mage::getModel('vendor/product');
 
             $vendorProductId = $this->getRequest()->getParam('id');    
@@ -144,7 +145,6 @@ class Ccc_Vendor_Account_ProductController extends Mage_Core_Controller_Front_Ac
             try 
             {
                 $requestModel = Mage::getModel('vendor/product_request');
-
                 $vendorId = $this->_getSession()->getVendor()->getId();
 
                 $requestModel->setVendorId($vendorId);

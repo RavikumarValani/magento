@@ -1,6 +1,5 @@
 <?php $this->prepareTab();?>
 <?php $tabs = $this->getTabs();?>
-
 <?php foreach ($tabs as $key => $tab): ?>
 	<div class="tab">
 		<button class="button tabButton" id="<?php echo $key ?>" onclick="getTabContent(this)"> <?php echo $tab['label']; ?></button> <br>
@@ -10,7 +9,7 @@
 <script type="text/javascript">
 	var tabId;
 	var tabsData = <?php echo json_encode($tabs) ?>;
-	getTabContent(null,'group_25');
+	getTabContent(null,'<?php print_r(array_keys($tabs)[0]) ?>');
 	function getTabContent(tab,optional=null) {
 		if(optional)
 		{

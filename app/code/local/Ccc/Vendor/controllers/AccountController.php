@@ -415,6 +415,7 @@ class Ccc_Vendor_AccountController extends Mage_Core_Controller_Front_Action
                 $vendor->setfirstname($data['firstname']);
                 $vendor->setlastname($data['lastname']);
                 $vendor->setmiddlename($data['middlename']);
+                $vendor->setPhoneno($data['phoneno']);
 
                 $vendor->save();
                 $this->_getSession()->setvendor($vendor)
