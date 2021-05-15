@@ -314,13 +314,12 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $dataCommited = false;
         try {
             $this->_beforeSave();
-            
             if ($this->_dataSaveAllowed) {
                 $this->_getResource()->save($this);
                 $this->_afterSave();
             }
             $this->_getResource()->addCommitCallback(array($this, 'afterCommitCallback'))
-            ->commit();
+                ->commit();
             $this->_hasDataChanges = false;
             $dataCommited = true;
         } catch (Exception $e) {

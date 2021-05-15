@@ -397,6 +397,4 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $user = Mage::getSingleton('admin/session')->getUser();
         return $user->validateCurrentPassword($password);
     }
-
-   
 }
