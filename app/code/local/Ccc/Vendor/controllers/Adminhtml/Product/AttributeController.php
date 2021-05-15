@@ -316,6 +316,14 @@ class Ccc_Vendor_Adminhtml_Product_AttributeController extends Mage_Adminhtml_Co
             Mage::helper('vendor')->__('Unable to find an attribute to delete.'));
         $this->_redirect('*/*/');
     }
+    
+        protected function _setForcedFormKeyActions($actionNames)
+    {
+        $actionNames = (is_array($actionNames)) ? $actionNames: (array)$actionNames;
+        $actionNames = array_merge($this->_forcedFormKeyActions, $actionNames);
+        $actionNames = array_unique($actionNames);
+        $this->_forcedFormKeyActions = $actionNames;
+    }
 
     
 }
