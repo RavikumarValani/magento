@@ -20,7 +20,7 @@ $setup->addAttribute(Ccc_Vendor_Model_Resource_Vendor::ENTITY, 'phoneno', array(
     'visible_on_front'           => 1,
     'visible_in_advanced_search' => 0,
     'is_html_allowed_on_front'   => 1,
-    'global'                     => Ccc_Compile_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'global'                     => Ccc_Vendor_Model_Resource_Eav_Attribute::SCOPE_STORE,
 ));
 
 $installer->endSetup();
