@@ -97,7 +97,7 @@ class Ccc_Vendor_Block_Product_Edit_Tabs extends Mage_Core_Block_Template
                 ->setAttributes($attributes)
                 ->setAddHiddenFields($active)
                 ->toHtml();
-
+                
             $this->addTab('group_' . $group->getId(), array(
                 'label' => Mage::helper('vendor')->__($group->getAttributeGroupName()),
                 'content' => $block,

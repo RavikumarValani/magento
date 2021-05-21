@@ -18,6 +18,9 @@
             <th><?php echo $this->__('SKU') ?></th>
             <th><?php echo $this->__('Price') ?></th>
             <th><?php echo $this->__('Last Performed State') ?></th>
+
+            <th><?php echo $this->__('Action') ?></th>
+
             <th><?php echo $this->__('Status') ?></th>
         </tr>
     </thead>
@@ -36,6 +39,12 @@
             <td><?php echo $product['sku']; ?>&nbsp;</td>
             <td><?php echo $product['price']; ?>&nbsp;</td>
             <td><b><?php echo ucwords($product['request_type']); ?>&nbsp;</b></td> 
+            <?php if($product['approved'] == '1' || $product['approved'] == '0'): ?>
+                <td><a onclick="redirectToEdit(this)" style="color: green"><?php echo 'Edit' ?>&nbsp;</a>
+                <a href="<?php echo $this->getDeleteUrl($product['entity_id']); ?>" style="color: red"><?php echo 'Delete' ?>&nbsp;</a></td>
+            <?php else: ?> 
+                <td>&nbsp;</td>
+            <?php endif; ?>
             <?php if($product['approved'] == '2'): ?>
                 <td><p style="color: blue"><?php echo 'Pending' ?>&nbsp;</p></td>
             <?php elseif($product['approved'] == '1') : ?>

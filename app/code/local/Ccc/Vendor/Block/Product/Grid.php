@@ -5,6 +5,10 @@ class Ccc_Vendor_Block_Product_Grid extends Mage_Core_Block_Template
     {
         return $this->getUrl('*/account_product/new');
     }
+    public function getDeleteUrl($id)
+    {
+        return $this->getUrl('*/*/delete',array('id' => $id));
+    }
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
