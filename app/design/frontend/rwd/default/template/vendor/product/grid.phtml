@@ -7,7 +7,6 @@
 <?php //echo $this->getPagerHtml(); ?>
 <a href="<?php echo $this->getAddUrl(); ?>" class="button"><?php echo $this->__('Add New Product') ?></a><br><br>
     <h5><p style="color: green"># Click On Product Row For Edit Or Delete</p></h5>
-    <h5><p style="color: blue">* Pending Status Cannot Be Edit Or Delete Till <b>Approved Or Rejected</b></p></h5>
 <?php if ($products->getData()): ?>
 <table class="data-table" id="my-product-table">
     <thead>
@@ -25,11 +24,6 @@
     <tbody>
         <?php $_odd = '';?>
         <?php foreach ($products->getData() as $product): ?>
-        <?php if($product['approved'] == '2'): ?>
-            <tr>
-        <?php else : ?>
-        <tr style="cursor: pointer;" onclick="redirectToEdit(this)" title="<?=$this->getEditUrl() . 'id' . '/' . $product['entity_id'];?>">
-        <?php endif ?>
             <td><?php echo $product['entity_id']; ?>&nbsp;</td>
             <td><?php echo $product['custom_name']; ?>&nbsp;</td>
             <!--<td class="a-center">{$page.product[io].customer}</td>-->
@@ -37,7 +31,7 @@
             <td><?php echo $product['sku']; ?>&nbsp;</td>
             <td><?php echo $product['price']; ?>&nbsp;</td>
             <td><b><?php echo ucwords($product['request_type']); ?>&nbsp;</b></td> 
-            <td><a onclick="redirectToEdit(this)" style="color: green"><?php echo 'Edit' ?>&nbsp;</a>
+                <td><a href="<?php echo $this->getEditUrl($product['entity_id']); ?>" style="color: green"><?php echo 'Edit' ?>&nbsp;</a>
                 <a href="<?php echo $this->getDeleteUrl($product['entity_id']); ?>" style="color: red"><?php echo 'Delete' ?>&nbsp;</a></td>
             <?php if($product['approved'] == '2'): ?>
                 <td><p style="color: blue"><?php echo 'Pending' ?>&nbsp;</p></td>

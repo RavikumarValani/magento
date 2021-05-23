@@ -86,9 +86,9 @@ class Ccc_Vendor_Block_Product_Grid extends Mage_Core_Block_Template
 
         return $collection;
 	}
-	public function getEditUrl()
+	public function getEditUrl($id = null)
     {
-        return $this->getUrl('*/*/edit');
+        return $this->getUrl('*/*/edit', array('id' => $id));
     }
     public function _getSession()
     {
