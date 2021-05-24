@@ -13,7 +13,6 @@ class Ccc_Vendor_Adminhtml_VendorController extends Mage_Adminhtml_Controller_Ac
         $this->loadLayout();
         $this->_setActiveMenu('vendor');
         $this->_title('Vendor Grid');
-
         $this->_addContent($this->getLayout()->createBlock('vendor/adminhtml_vendor'));
 
         $this->renderLayout();
