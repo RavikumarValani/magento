@@ -24,6 +24,7 @@
     <tbody>
         <?php $_odd = '';?>
         <?php foreach ($products->getData() as $product): ?>
+        <tr style="cursor: pointer;" onclick="redirectToEdit(this)" title="<?=$this->getEditUrl() . 'id' . '/' . $product['entity_id'];?>">
             <td><?php echo $product['entity_id']; ?>&nbsp;</td>
             <td><?php echo $product['custom_name']; ?>&nbsp;</td>
             <!--<td class="a-center">{$page.product[io].customer}</td>-->

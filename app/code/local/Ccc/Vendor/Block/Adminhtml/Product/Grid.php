@@ -30,7 +30,6 @@ class Ccc_Vendor_Block_Adminhtml_Product_Grid extends Mage_Adminhtml_Block_Widge
             array('*')
             );
         $this->setCollection($collection);
-        $collection->getSelect()->where('request != 1');
         return parent::_prepareCollection();
     }
 
