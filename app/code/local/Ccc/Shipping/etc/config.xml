@@ -8,17 +8,17 @@
 
     <default>
         <carriers>
-            <express>
+            <expres>
                 <active>1</active>
                 <sallowspecific>0</sallowspecific>
-                <model>ccc_shipping/method_express</model>
-                <name>Express</name>
+                <model>ccc_shipping/method_expres</model>
+                <name>expres</name>
                 <price>5.00</price>
-                <title>Express</title>
+                <title>Expres</title>
                 <type>I</type>
                 <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
                 <handling_type>F</handling_type>
-            </express>
+            </expres>
         </carriers>
     </default>
 
