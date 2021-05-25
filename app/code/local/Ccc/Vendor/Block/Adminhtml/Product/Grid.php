@@ -73,6 +73,16 @@ class Ccc_Vendor_Block_Adminhtml_Product_Grid extends Mage_Adminhtml_Block_Widge
                 'index' => 'request_type'
         ));
 
+        $this->addColumn(
+            'status',
+            array(
+                'header'=> Mage::helper('vendor')->__('Status'),
+                'width' => '70px',
+                'index' => 'approved',
+                'renderer' => 'Ccc_Vendor_Block_Adminhtml_Product_Renderer_Status'
+            )
+            );
+
 
         $this->addColumn('approved',
             array(

@@ -146,14 +146,25 @@ class Ccc_Vendor_Account_ProductController extends Mage_Core_Controller_Front_Ac
             {
                 $requestModel = Mage::getModel('vendor/product_request');
                 $vendorId = $this->_getSession()->getVendor()->getId();
-
-                $requestModel->setVendorId($vendorId);
-                $requestModel->setProductId($this->getRequest()->getParam('id'));
-                $requestModel->setRequestType('delete');
-
-                $requestModel->setRequestedDate(Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'));
-
-                $requestModel->save();
+                $collection = $requestModel->getCollection();
+                echo $collection->getSelect()->reset(Zend_Db_Select::WHERE)->where(new Zend_Db_Expr("(vendor_id = {$vendorId} AND request = '' AND product_id = {$this->getRequest()->getParam('id')})"));
+                $data = $collection->getResource()->getReadConnection()->fetchAll($collection->getSelect())[0];
+                print_r($data);
+                if($data)
+                {
+                    $requestModel->load($data['request_id']);
+                    $requestModel->delete();
+                }
+                else
+                {
+                    $requestModel->setVendorId($vendorId);
+                    $requestModel->setProductId($this->getRequest()->getParam('id'));
+                    $requestModel->setRequestType('delete');
+    
+                    $requestModel->setRequestedDate(Mage::getModel('core/date')->gmtDate('Y-m-d H:i:s'));
+    
+                    $requestModel->save();
+                }
 
                 Mage::getSingleton('vendor/session')->addSuccess(
                     Mage::helper('vendor')->__('Product Deleted....'));

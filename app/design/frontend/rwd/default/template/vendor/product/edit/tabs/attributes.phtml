@@ -12,7 +12,7 @@
 				<?php elseif($attribute->getFrontendInput() == 'weight'): ?>
 						<input <?php if($attribute->getIsRequired()) { echo 'required'; } ?> type="weight" name='<?php echo  $attribute->getAttributeCode(); ?>' value="<?php echo $product[strtolower($attribute->getAttributeCode())] ?>">
 				<?php elseif($attribute->getFrontendInput() == 'price'): ?>
-						<input type="price" <?php if($attribute->getIsRequired()) { echo 'required'; } ?> name='<?php echo  $attribute->getAttributeCode(); ?>' value="<?php echo $product[strtolower($attribute->getAttributeCode())] ?>">
+						<input type="number" min="1" <?php if($attribute->getIsRequired()) { echo 'required'; } ?> name='<?php echo  $attribute->getAttributeCode(); ?>' value="<?php echo $product[strtolower($attribute->getAttributeCode())] ?>">
 				<?php elseif($attribute->getFrontendInput() == 'boolean'): ?>
 						<select <?php if($attribute->getIsRequired()) { echo 'required'; } ?> name='<?php echo  $attribute->getAttributeCode(); ?>'>
 							<?php if ($product[strtolower($attribute->getAttributeCode())] == '0') : ?>
