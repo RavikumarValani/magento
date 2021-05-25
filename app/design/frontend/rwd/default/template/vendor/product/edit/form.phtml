@@ -1,8 +1,8 @@
 <div style="float: left"><h2>Product Information</h2></div>
-<form method="POST" action="<?php echo $this->getSaveUrl(); ?>">
+<form method="POST" id="vendorProductForm" action="<?php echo $this->getSaveUrl(); ?>">
 	<?php echo $this->getBlockHtml('formkey')?>
 	<div style="float: right;">
-		<button class="button" type="submit">Save</button>
+		<button class="button" type="button" onclick="return checkDetails()">Save</button>
 		<a class="button" href="<?php echo $this->getBackUrl(); ?>">Back</a>
 		<?php if($this->isDeleteVisible()) : ?>
 			<a class="button" id="id_a34c0dfcc9ed39a7290f6fae52a6a784" href="<?php echo $this->getDeleteUrl(); ?>">Delete</a>
@@ -12,6 +12,38 @@
 		
 	</div>
 </form>
+<script type="text/javascript">
+	function checkDetails() {
+    flag = 0;
+    jQuery("input,select,textarea").each(function() {
+        if (jQuery(this).attr("id") == 'required') {
+            if (jQuery(this).val() == "" || jQuery(this).val() == undefined) {
+                //ptag = jQuery(this).parent().prev().children()[0];
+                ptag = jQuery(this).parent().parent();
+                console.log(ptag);
+                alert("Please Fill " + jQuery(ptag).text().trim() + " value");
+                flag = 1;
+                return false;
+            }
+        }
+    });
+    jQuery("input").each(function() {
+        if (jQuery(this).attr("type") == 'number') {
+            if (jQuery(this).val() < 0) {
+                ptag = jQuery(this).parent().children()[0];
+                alert(jQuery(ptag).text().trim().slice(1, -1) + " Value must be positive value ");
+                flag = 1;
+                return false;
+            }
+        }
+    });
+    if (flag) {
+        return false;
+    } else {
+        jQuery("#vendorProductForm").submit();
+    }
+	}
+</script>
 <style>
 #id_a34c0dfcc9ed39a7290f6fae52a6a784{
 		border:none;

@@ -9,6 +9,7 @@
 <script type="text/javascript">
 	var tabId;
 	var tabsData = <?php echo json_encode($tabs) ?>;
+	getTabContent(null,'<?php print_r(array_keys($tabs)[1]) ?>');
 	getTabContent(null,'<?php print_r(array_keys($tabs)[0]) ?>');
 	function getTabContent(tab,optional=null) {
 		if(optional)
