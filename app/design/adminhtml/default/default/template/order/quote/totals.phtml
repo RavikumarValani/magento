@@ -1,0 +1,29 @@
+<?php $sub = $this->getSubTotal() ?>
+<?php $grand = $this->getTotal() ?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head fieldset-legend  ?>">Total</h4>
+    </div>
+    <fieldset class="np">
+        <div class="edit-form" id="order-shipping_address_fields">
+            <div class="content">
+                    <div class="hor-scroll">
+                            <table cellspacing="0" class="form-list">
+                                <tbody>
+                                    <tr>
+                                        <td class="label"><label for="Group">Sub Total :</label></td>
+                                        <td class="value"><?php echo $sub ?></td>
+                                     
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><label for="order-shipping_address_firstname"> Grand Total : </label></td>
+                                       <td class="value"><?php echo $grand ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+            </div>
+        </div>
+    </fieldset>
+    <p><?php echo $this->getButtonHtml(Mage::helper('sales')->__('Submit Order'),'formSubmit()','save'); ?></p>
+</div>

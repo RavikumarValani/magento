@@ -1,0 +1,57 @@
+<form id="main_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div id="order-customer-account" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('account') ?>
+    </div>
+    <div id="product_grid" style="display: none;">
+        <?php echo $this->getChildHtml('product') ?>
+    </div>
+    <div id="item_grid" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('items') ?>
+    </div>
+    <div id="address">
+        <?php echo $this->getChildHtml('billing_address') ?>
+    </div>
+    <div id="address">
+        <?php echo $this->getChildHtml('shipping_address') ?>
+    </div>
+    <div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="fieldset-legend <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>">Shipping Method</h4>
+    </div>
+    <div class="fieldset">
+        <?php echo $this->getChildHtml('shipping_method') ?>
+    </div>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <div style="float: right;"><?php echo $this->getButtonsHtml() ?></div>
+        <h4 class="fieldset-legend <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>">Payment Method</h4>
+    </div>
+    <div class="fieldset">
+        <?php echo $this->getChildHtml('billing_method') ?>
+    </div>
+
+    <div class="fieldset">
+        <?php echo $this->getChildHtml('totals') ?>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+     function showAction(){
+          var grid = document.getElementById('product_grid');
+          grid.style.display = '';
+     };
+     function updateAction(){
+          var form = document.getElementById('main_form');
+          form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+          form.submit();
+     }
+     function formSubmit(){
+          var form = document.getElementById('main_form');
+          form.setAttribute('action', "<?php echo $this->getUrl('*/*/save') ?>")
+          form.submit();
+     }
+     
+</script>

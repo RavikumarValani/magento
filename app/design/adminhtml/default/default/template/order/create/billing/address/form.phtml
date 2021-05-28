@@ -1,0 +1,9 @@
+<form id="edit_form" action="<?php echo $this->getSaveUrl('*/*/update') ?>" method="post" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div id="order-store-selector" style="display:<?php echo $this->getStoreSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('billing_address') ?>
+    </div>
+    <div id="order-data" style="display:<?php echo $this->getDataSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('shipping_address') ?>
+    </div>
+</form>

@@ -1,0 +1,35 @@
+<?php $data = $this->getCustometData() ?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head fieldset-legend <?php echo $this->getHeaderCssClass() ?>">Account Information</h4>
+    </div>
+    <fieldset class="np">
+        <div class="edit-form" id="order-shipping_address_fields">
+            <div class="content">
+                    <div class="hor-scroll">
+                            <table cellspacing="0" class="form-list">
+                                <tbody>
+                                    <tr>
+                                        <td class="label"><label for="Group">Group</label></td>
+                                        <td class="value">
+                                            <?php if($data['email'] == 1): ?>
+                                                <?php echo 'General' ?>
+                                            <?php elseif($data['email'] == 2): ?>
+                                               <?php   echo 'Wholesale' ?>
+                                            <?php else: ?>
+                                                <?php echo 'Retailer' ?>
+                                            <?php endif;?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label"><label for="order-shipping_address_firstname">First Name </label></td>
+                                        <td class="value">
+                                        <?php echo $data['email'] ?>
+                                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
