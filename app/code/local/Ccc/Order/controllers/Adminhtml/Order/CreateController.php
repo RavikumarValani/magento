@@ -6,10 +6,6 @@
             return Mage::getSingleton('order/session_quote');
         }
 
-        protected function _getOrderCreateModel()
-        {
-            return Mage::getSingleton('order/order_create');
-        }
         public function indexAction()
         {
             $this->_title($this->__('Orders'))->_title($this->__('New Order'));
@@ -31,7 +27,7 @@
         {
             $this->_title($this->__('Orders'))->_title($this->__('New Order'));
             $this->loadLayout();
-            // $this->_addContent($this->getLayout()->createBlock('order/adminhtml_order_create_items'));
+            $this->getLayout()->getBlock('quote')->setQuote($this->getQuote());
             $this->_setActiveMenu('order/order')
                 ->renderLayout();
         }
@@ -39,106 +35,82 @@
         public function updateAction()
         {
             try {
-                $billingCheck = $this->getRequest()->getPost('billing_check');
-            if($billingCheck)
-            {
-                $customer = Mage::getModel('customer/customer')->load($this->_getSession()->getCustomerId());
-                $customerAddress = $customer->getDefaultBillingAddress();
-                $data = $this->getRequest()->getPost('order');
-                $customerAddress->addData($data['billing_address']);
-                $customerAddress->save();
-            }
-            $sameBilling = $this->getRequest()->getPost('same_billing');
-            if($sameBilling)
-            {
-                $quoteId = $this->getQuote()->getId();
-                $customerId = $this->_getSession()->getCustomerId();
-                $address = Mage::getModel('order/quote_address');
-                $collection = $address->getCollection();
-                $collection->getSelect()->reset(Zend_Db_Select::COLUMNS)->where(new Zend_Db_Expr("quote_id = {$quoteId} AND customer_id = {$customerId} AND address_type='shipping'"))->columns('entity_id');
-                $addressId = $collection->getColumnValues('entity_id')[0];
-                $billingCollection = $address->getCollection();
-                $billingCollection->getSelect()->reset(Zend_Db_Select::COLUMNS)->where(new Zend_Db_Expr("quote_id = {$quoteId} AND customer_id = {$customerId} AND address_type='billing'"))->columns('*');
-                $billing = $billingCollection->getResource()->getReadConnection()->fetchRow($billingCollection->getSelect());
-                unset($billing['entity_id']);
-                $address->setCustomerId($billing['customer_id']);
-                $address->setFirstname($billing['firstname']);
-                $address->setQuoteId($billing['quote_id']);
-                $address->setLastname($billing['customer_id']);
-                $address->setMiddlename($billing['customer_id']);
-                $address->setPrefix($billing['customer_id']);
-                $address->setSuffix($billing['customer_id']);
-                $address->setMiddlename($billing['customer_id']);
-                $address->setCompany($billing['customer_id']);
-                $address->setCity($billing['customer_id']);
-                $address->setStreet($billing['customer_id']);
-                $address->setAddressType('shipping');
-                $address->save();
-            }
-            $shippingCheck = $this->getRequest()->getPost('shipping_check');
-            if($shippingCheck)
-            {
-                $customer = Mage::getModel('customer/customer')->load($this->_getSession()->getCustomerId());
-                $customerAddress = $customer->getDefaultShippingingAddress();
-                $data = $this->getRequest()->getPost('order');
-                if(!$customerAddress)
-                {
-                    $customerAddress = Mage::getModel('customer/address');
-                    $customerAddress->setData($data['shipping_address']);
-                    $customerAddress->ParentId = $this->_getSession()->getCustomerId();
-                    $customerAddress->save();
-                }
-                else{
-                    $customerAddress->addData($data['shipping_address']);
-                    $customerAddress->save();
-                }
-            }
-            $data = $this->getRequest()->getPost('order');
-            $quoteAddress = Mage::getModel('order/quote_address');
-            $quoteId = $quoteAddress->getQuoteId();
-            $customerId = $this->_getSession()->getCustomerId();
-            if($data['billing_address'])
-            {
-                $collection = $quoteAddress->getCollection();
-                $collection->getSelect()->reset(Zend_Db_Select::COLUMNS)->where(new Zend_Db_Expr("quote_id = {$quoteId} AND customer_id = {$customerId} AND address_type='billing'"))->columns('entity_id');
-                $addressId = $collection->getColumnValues('entity_id')[0];
-                if($addressId)
-                {
-                    $quoteAddress->load($addressId);
-                    $quoteAddress->addData($data['billing_address']);
-                }
-                else
-                {
-                    $quoteAddress->setData($data['billing_address']);
-                    $quoteAddress->CustomerId = $this->_getSession()->getCustomerId();
-                    $quoteAddress->QuoteId = $quoteId;
-                    $quoteAddress->addressType = 'billing';
-                }
-                $quoteAddress->save();
                 
-            }
-            if($data['shipping_address'])
-            {
-                $collection = $quoteAddress->getCollection();
-                $collection->getSelect()->reset(Zend_Db_Select::COLUMNS)->where(new Zend_Db_Expr("quote_id = {$quoteId} AND customer_id = {$customerId} AND address_type='shipping'"))->columns('entity_id');
-                $addressId = $collection->getColumnValues('entity_id')[0];
-                if($addressId)
-                {
-                    $quoteAddress->load($addressId);
-                    $quoteAddress->addData($data['shipping_address']);
+                $data = $this->getRequest()->getPost('order');
 
-                }
-                else
+                if(array_filter($data['billing_address']))
                 {
-                    $quoteAddress->setData($data['shipping_address']);
-                    $quoteAddress->CustomerId = $this->_getSession()->getCustomerId();
-                    $quoteAddress->QuoteId = $quoteId;
-                    $quoteAddress->addressType = 'shipping';
+                    $quote = $this->getQuote();
+                    $billingAddress = $quote->getBillingAddress();
+                    $billingAddress->addData($data['billing_address']);
+                    $billingAddress->setCustomerId($quote->getCustomerId());
+                    $billingAddress->setQuoteId($quote->getId());
+                    $billingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_BILLING);
+                    $billingAddress->save();
                 }
-                $quoteAddress->save();
-            }
-            $this->_redirect('*/*/new');
+                if(array_filter($data['shipping_address']))
+                {
+                    $quote = $this->getQuote();
+                    $shippingAddress = $quote->getShippingAddress();
+                    $shippingAddress->addData($data['shipping_address']);
+                    $shippingAddress->setCustomerId($quote->getCustomerId());
+                    $shippingAddress->setQuoteId($quote->getId());
+                    $shippingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_SHIPPING);
+                    $shippingAddress->save();
+                }
+                $billingCheck = $this->getRequest()->getPost('billing_check');
+                if($billingCheck)
+                {
+                    $quote = $this->getQuote();
+                    $customer = $quote->getCustomer();
+                    $customerBillingAddress = $customer->getBillingAddress();
+                    $quoteBillingAddress = $quote->getBillingAddress()->getData();
+                    unset($quoteBillingAddress['entity_id']);
+                    unset($quoteBillingAddress['quote_id']);
+                    unset($quoteBillingAddress['customer_address_id']);
+                    unset($quoteBillingAddress['email']);
+                    $customerBillingAddress->addData($quoteBillingAddress);
+                    $customerBillingAddress->setParentId($quote->getCustomerId());
+                    $customerBillingAddress->setIsDefaultBilling('1');
+                    $customerBillingAddress->setSaveInAddressBook('1');
+                    $customerBillingAddress->save();
+                }
+                $sameAsBilling = $this->getRequest()->getPost('same_billing');
+                if($sameAsBilling)
+                {
+                    echo "<pre>";
+                    $quote = $this->getQuote();
+                    $billingAddress = $quote->getBillingAddress();
+                    $address = $billingAddress->getData();
+                    print_r($address);
+                    unset($address['entity_id']);
 
+                    $shippingAddress = $quote->getShippingAddress();
+                    $shippingAddress->addData($address);
+
+                    $shippingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_SHIPPING);
+                    print_r($shippingAddress);
+                    $shippingAddress->save();
+                    
+                }
+                $shippingCheck = $this->getRequest()->getPost('shipping_check');
+                if ($shippingCheck) {
+                    $quote = $this->getQuote();
+                    $customer = $quote->getCustomer();
+                    $customerShippingAddress = $customer->getShippingAddress();
+                    $quoteShippingAddress = $quote->getShippingAddress()->getData();
+                    unset($quoteShippingAddress['entity_id']);
+                    unset($quoteShippingAddress['quote_id']);
+                    unset($quoteShippingAddress['customer_address_id']);
+                    $customerShippingAddress->addData($quoteShippingAddress);
+                    $customerShippingAddress->setParentId($quote->getCustomerId());
+                    $customerShippingAddress->setIsDefaultShipping('1');
+                    $customerShippingAddress->setSaveInAddressBook('1');
+                    $customerShippingAddress->save();
+                }
+
+                Mage::getSingleton('core/session')->addSuccess("Address has been saved.");
+                $this->_redirect('*/*/new');
             }
             catch (Exception $e){
                 Mage::getSingleton('core/session')->addError($e->getMessage());
@@ -181,96 +153,106 @@
             
         }
 
-        public function saveProductAction()
+        public function accountAction()
         {
-            $qtys = $this->getRequest()->getPost('product');
-            if($qtys)
+            try
             {
-                foreach ($qtys as $id => $qty) {
-                    $quoteItem = Mage::getModel('order/quote_item');
-                    $quoteItem->load($id);
-                    $quoteItem->Quantity = $qty['quantity'];
-                    $quoteItem->UpdatedAt = date("Y-m-d H:i:s");
-                    $quoteItem->save();
+                $account = $this->getRequest()->getPost('account');
+                $customer = $this->getQuote()->getCustomer();
+                if(!$account['email'])
+                {
+                    throw new Exception("Enter email.");
                 }
+                $customer->setGroupId($account['group']);
+                $customer->setEmail($account['email']);
+                $customer->save();
 
+                Mage::getSingleton('core/session')->addSuccess("Account information saved.");
+                $this->_redirect('*/*/new');
             }
-            $productIds = $this->getRequest()->getParams()['massaction'];
-            $quote = Mage::getModel('order/quote');
-            $quoteItem = Mage::getModel('order/quote_item');
-            $quoteId = $quoteItem->getQuoteId();
-            $quote->addItemToCart($productIds, $quoteId);
-            $this->_redirect('*/*/new');
+            catch (Exception $e){
+                Mage::getSingleton('core/session')->addError($e->getMessage());
+                $this->_redirect('*/*/new');
+            }
+            
         }
 
-        public function saveAction()
+        public function methodAction()
         {
-            try {
-                $shippingMethod = $this->getRequest()->getPost('shipingMethod');
-                if(!$shippingMethod)
+            try
+            {
+                $methods = $this->getRequest()->getPost('method');
+                $cart = $this->getQuote();
+                $shippingMethod = $methods['shipping'];
+                $shippingMethod = explode(',',$shippingMethod);
+                $shippingAmount = $shippingMethod[1];
+                $shippingName = $shippingMethod[0];
+                if(!$paymentMethod && !$shippingName)
                 {
-                        throw new Exception("Please select shippingmethod.");
+                    throw new Exception("Please select one shipping method.");
                 }
-                $billingMethod = $this->getRequest()->getPost('billingMethod');
-                if(!$billingMethod)
+                
+                $cart->setShippingMethod($shippingName);
+                $cart->setShippingAmount($shippingAmount);
+                $cart->save();
+
+                Mage::getSingleton('core/session')->addSuccess("Shipping method saved.");
+                $this->_redirect('*/*/new');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('core/session')->addError($e->getMessage());
+                $this->_redirect('*/*/new');
+            }
+            
+        }
+
+        public function billingMethodAction()
+        {
+            try
+            {
+                $methods = $this->getRequest()->getPost('method');
+                $cart = $this->getQuote();
+                $paymentMethod = $methods['payment'];
+                if(!$paymentMethod)
                 {
-                        throw new Exception("Please select billingmethod.");
+                    throw new Exception("Please select one payment method.");
                 }
+                $cart->setPaymentMethod($paymentMethod);
+                $cart->save();
+
+                Mage::getSingleton('core/session')->addSuccess("Payment method saved.");
+                $this->_redirect('*/*/new');
+            }
+            catch (Exception $e){
+                Mage::getSingleton('core/session')->addError($e->getMessage());
+                $this->_redirect('*/*/new');
+            }
+            
+        }
+
+        public function saveProductAction()
+        {
+            try
+            {
+                $qtys = $this->getRequest()->getPost('product');
+                if($qtys)
+                {
+                    foreach ($qtys as $id => $qty) {
+                        $quoteItem = Mage::getModel('order/quote_item');
+                        $quoteItem->load($id);
+                        $quoteItem->setQuantity($qty['quantity']);
+                        $quoteItem->setUpdatedAt(date("Y-m-d H:i:s"));
+                        $quoteItem->save();
+                    }
+    
+                }
+                $productIds = $this->getRequest()->getParams()['massaction'];
                 $quote = $this->getQuote();
-                $quote->setShippingName($quote->getShippingAdddress()['firstname']);
-                $quote->setBillingName($quote->getBillingAdddress()['firstname']);
-                $quote->setShippingMethod($shippingMethod);
-                $quote->setPaymentMethod($billingMethod);
-                $quote->setBaseGrandTotal($this->getSubTotal());
-                $quote->setGrandTotal($this->getSubTotal());
-                $quote->save();
-                $order = Mage::getModel('order/order');
-                $quote = $this->getQuote();
-                $data = $quote->getData();
-                unset($data['entity_id']);
-                $order->setData($data);
-                $order->setStatus(1);
-                $order->setCustomerId($this->_getSession()->getCustomerId());
-                $order->save();
-                $quote = Mage::getModel('order/quote');
-                $items = $quote->getItems();
-                if(!$items)
-                {
-                        throw new Exception("Please add product.");
-                }
-                    foreach ($items as $key => $item) {
-                            $orderItem = Mage::getModel('order/order_item');
-                            unset($item['item_id']);
-                            unset($item['quote_id']);
-                            $orderItem->setData($item);
-                            print_r($orderItem);
-                            // $orderItem->save();
-                        }
-                        
-                        
-                        $quote = Mage::getModel('order/quote');
-                        $shippingAddress = $quote->getShippingAdddress();
-                        if(!$shippingAddress)
-                        {
-                            throw new Exception("Enter Shipping Address.");
-                        }
-                        $orderAddress = Mage::getModel('order/order_address');
-                        unset($shippingAddress['entity_id']);
-                        $orderAddress->setData($shippingAddress);
-                        $orderAddress->save();
-                        $quote = Mage::getModel('order/quote');
-                        $billingAddress = $quote->getBillingAdddress();
-                        if(!$billingAddress)
-                        {
-                            throw new Exception("Enter Billing Address.");
-                        }
-                        $orderAddress = Mage::getModel('order/order_address');
-                        unset($billingAddress['entity_id']);
-                        $orderAddress->setData($billingAddress);
-                        $orderAddress->save();
-                        $quote = $this->getQuote();
-                        $quote->delete();
-                        $this->_redirect('*/adminhtml_order/index');
+                $quoteId = $quote->getId();
+                $quote->addItemToCart($productIds, $quoteId);
+
+                Mage::getSingleton('core/session')->addSuccess("Add successfully.");
+                $this->_redirect('*/*/new');
             }
             catch (Exception $e){
                 Mage::getSingleton('core/session')->addError($e->getMessage());
@@ -278,28 +260,122 @@
             }
         }
 
-        protected function _getQuote()
+        public function saveAction()
         {
-            return $this->_getSession()->getQuote();
-        }
-
-        protected function _reloadQuote()
-        {
-            $id = $this->_getQuote()->getId();
-            $this->_getQuote()->load($id);
-            return $this;
-        }
-
-        public function getSubTotal()
-        {
-            $sub = 0;
-            $quote = Mage::getModel('order/quote');
-            $items = $quote->getItems();
-            foreach($items as $item)
-            {
-                $sub = $sub + $item['price'];
+            try {
+                $quote = $this->getQuote();
+                $items = $quote->getItems();
+                if(!array_filter($items))
+                {
+                        throw new Exception("Please add product.");
+                }
+                $billingAddress = $quote->getBillingAddress();
+                if(!$billingAddress->getId())
+                {
+                    throw new Exception("Enter Billing Address.");
+                }
+                $shippingAddress = $quote->getShippingAddress();
+                if(!$shippingAddress->getId())
+                {
+                    throw new Exception("Enter Shipping Address.");
+                }
+                if(!$quote->getPaymentMethod())
+                {
+                    throw new Exception("Please select payment method.");
+                }
+                if(!$quote->getShippingMethod())
+                {
+                    throw new Exception("Please select shipping method.");
+                }
+                $quote = $this->getQuote();
+                $shippingData = $quote->getShippingAddress()->getData();
+                $billingData = $quote->getBillingAddress()->getData();
+                $quote->setShippingName($shippingData['firstname']);
+                $quote->setBillingName($billingData['firstname']);
+                $subTotal = $quote->getSubTotal();
+                $quote->setBaseGrandTotal($subTotal);
+                $quote->setGrandTotal($quote->getSubTotal() + $quote->getShippingAmount());
+                $quote->save();
+                
+                $order = Mage::getModel('order/order');
+                $quote = $this->getQuote();
+                $data = $quote->getData();
+                unset($data['entity_id']);
+                $order->setData($data);
+                $order->setStatus('pending');
+                $order->setShippingName($shippingData['firstname']);
+                $order->setBillingName($billingData['firstname']);
+                $order->setCustomerId($quote->getCustomerId());
+                $order->save();
+                $orderId = $order->getId();
+                $quote = $this->getQuote();
+                $items = $quote->getItems();
+                
+                foreach ($items as $key => $item) {
+                        $orderItem = Mage::getModel('order/order_item');
+                        unset($item['item_id']);
+                        unset($item['quote_id']);
+                        $orderItem->setData($item);
+                        $orderItem->setOrderId($orderId);
+                        print_r($orderItem);
+                        $orderItem->save();
+                    }
+                    
+                    $quote = $this->getQuote();
+                    $shippingAddress = $quote->getShippingAddress();
+                    $shippingAddress = $shippingAddress->getData();
+                    $orderAddress = Mage::getModel('order/order_address');
+                    unset($shippingAddress['entity_id']);
+                    $orderAddress->setData($shippingAddress);
+                    $orderItem->setOrderId($orderId);
+                    $orderAddress->save();
+                    
+                    $quote = $this->getQuote();
+                    $billingAddress = $quote->getBillingAddress();
+                    $billingAddress = $billingAddress->getData();
+                    $orderAddress = Mage::getModel('order/order_address');
+                    unset($billingAddress['entity_id']);
+                    $orderAddress->setData($billingAddress);
+                    $orderItem->setOrderId($orderId);
+                    $orderAddress->save();
+                   
+                    $quote = $this->getQuote();
+                    $quote->delete();
+                    Mage::getSingleton('core/session')->addSuccess("Order Saved.");
+                    $this->_redirect('*/adminhtml_order/index');
             }
-            return $sub;
+            catch (Exception $e){
+                Mage::getSingleton('core/session')->addError($e->getMessage());
+                $this->_redirect('*/*/new');
+            }
         }
+
+       public function cancelAction()
+       {
+           $quote = $this->getQuote();
+           $quote->delete();
+           $this->_redirect('*/adminhtml_order/');
+       }
+
+       public function deleteAction()
+       {
+           try{
+               $id = $this->getRequest()->getPost('delete');
+               $id = key($id);
+               if($id)
+               {
+                   $item = Mage::getModel('order/quote_item');
+                   $item->load($id);
+                   $item->delete();
+               }
+                Mage::getSingleton('core/session')->addSuccess("Item Removed.");
+               $this->_redirect('*/*/new');
+           }
+           catch (Exception $e){
+            Mage::getSingleton('core/session')->addError($e->getMessage());
+            $this->_redirect('*/*/new');
+            }
+       }
+
     }
 ?>

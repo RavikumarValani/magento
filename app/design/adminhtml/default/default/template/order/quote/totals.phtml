@@ -1,29 +1,46 @@
-<?php $sub = $this->getSubTotal() ?>
-<?php $grand = $this->getTotal() ?>
-<div class="entry-edit">
+<?php $subTotal = $this->getQuote()->getSubTotal() ?>
+<?php $grandTotal = $this->getTotal() ?>
+<?php $shippingAmmount = $this->getShippingAmount() ?>
+<div class="box-right entry-edit">
     <div class="entry-edit-head">
-        <h4 class="icon-head fieldset-legend  ?>">Total</h4>
+        <h4>Order Totals</h4>
     </div>
-    <fieldset class="np">
-        <div class="edit-form" id="order-shipping_address_fields">
-            <div class="content">
-                    <div class="hor-scroll">
-                            <table cellspacing="0" class="form-list">
-                                <tbody>
-                                    <tr>
-                                        <td class="label"><label for="Group">Sub Total :</label></td>
-                                        <td class="value"><?php echo $sub ?></td>
-                                     
-                                    </tr>
-                                    <tr>
-                                        <td class="label"><label for="order-shipping_address_firstname"> Grand Total : </label></td>
-                                       <td class="value"><?php echo $grand ?></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                    </div>
+    <div id="order-totals" class="order-totals">
+        <div>
+            <table cellspacing="0" cellpadding="8" width="100%">
+                <tbody>
+                    <tr>
+                        <td  class="a-right" colspan="1">
+                            Subtotal </td>
+                        <td  class="a-right">
+                            <span class="price">₹<?php echo $subTotal ?></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  class="a-right" colspan="1">
+                            Shipping &amp; Handling (Flat Rate - Fixed) </td>
+                        <td  class="a-right">
+                            <span class="price">₹<?php echo $shippingAmmount ?></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td  class="a-right" colspan="1">
+                            <strong>Grand Total</strong>
+                        </td>
+                        <td  class="a-right">
+                            <strong><span class="price">₹<?php echo $grandTotal ?></span></strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="divider"></div>
+            <div class="order-totals-bottom">
+                <p><button id="id_27ce7cab7c651eebf1dd492904593002" title="Submit Order"
+                        class="scalable save"  ><span><span><span>Submit
+                                    Order</span></span></span></button></p>
             </div>
+
+
         </div>
-    </fieldset>
-    <p><?php echo $this->getButtonHtml(Mage::helper('sales')->__('Submit Order'),'formSubmit()','save'); ?></p>
+    </div>
 </div>

@@ -1,4 +1,9 @@
-<?php $_items = $this->getItems() ?>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-cart"><?php echo $this->getHeaderText() ?></h4>
+        <button class="scalable add" style="float: right;" onclick="showAction()" type="button"><span>Add Products</span></button>
+    </div>
+<?php $_items = $this->getQuote()->getItems() ?>
 <?php if (empty($_items)): ?>
     <div class="grid" id="items_grid">
         <table cellspacing="0" class="data order-tables">
@@ -56,7 +61,7 @@
                 <td><?php echo $item['sku'] ?><br><?php echo $item['name'] ?></td>
                 <td> <?php echo $item['price'] ?></td>
                 <td><input type="number" min="1" name="product[<?php echo $item['item_id'] ?>][quantity]" value="<?php echo $item['quantity'] ?>"></td>
-                <td><button onclick="setAction()">Delete</button></td>
+                <td><button name="delete[<?php echo $item['item_id'] ?>]" onclick="deleteItem()">Delete</button></td>
                 </tr>
             </tbody>
             <?php endforeach; ?>
@@ -64,10 +69,11 @@
             
             <tfoot>
                 <tr>
-                    <td class="a-left" colspan="4"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?></td>
+                    <td class="a-left" colspan="4"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?>
+                    <button class="scalable update" style="float: right;" onclick="saveProduct()" type="button"><span>Update Quantity</span></button></td>
                 </tr>
             </tfoot>
         </table>
     </div>
 <?php endif; ?>
-    
+</div>    

@@ -6,7 +6,7 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
     {
         parent::__construct();
         $this->setId('order_grid');
-        $this->setUseAjax(true);
+        // $this->setUseAjax(true);
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
@@ -49,13 +49,6 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
             'index' => 'shipping_name',
         ));
 
-        $this->addColumn('base_grand_total', array(
-            'header' => Mage::helper('order')->__('G.T. (Base)'),
-            'index' => 'base_grand_total',
-            'type'  => 'currency',
-            'currency' => 'base_currency_code',
-        ));
-
         $this->addColumn('grand_total', array(
             'header' => Mage::helper('order')->__('G.T. (Purchased)'),
             'index' => 'grand_total',
@@ -77,28 +70,6 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
             'type' => 'datetime',
             'width' => '100px',
         ));
-
-        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view')) {
-            $this->addColumn('action',
-                array(
-                    'header'    => Mage::helper('order')->__('Action'),
-                    'width'     => '50px',
-                    'type'      => 'action',
-                    'getter'     => 'getId',
-                    'actions'   => array(
-                        array(
-                            'caption' => Mage::helper('order')->__('View'),
-                            'url'     => array('base'=>'*/sales_order/view'),
-                            'field'   => 'order_id',
-                            'data-column' => 'action',
-                        )
-                    ),
-                    'filter'    => false,
-                    'sortable'  => false,
-                    'index'     => 'stores',
-                    'is_system' => true,
-            ));
-        }
        
         return parent::_prepareColumns();
     }
@@ -106,7 +77,7 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
 
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/grid', array('_current'=>true));
+        return $this->getUrl('*/*/index', array('_current'=>true));
     }
 
 }

@@ -16,7 +16,16 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Form_Account extends Mage_Adminhtml_
     {
         $customer = Mage::getModel('customer/customer');
         $customer->load($this->_getSession()->getCustomerId());
-        return $customer->getData();
+        return $customer;
+    }
+
+    public function getGroup()
+    {
+        return [
+            '1' => 'General',
+            '2' => 'Wholesale',
+            '3' => 'Retailer',
+        ];
     }
 
 }

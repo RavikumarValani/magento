@@ -5,7 +5,8 @@ class Ccc_Order_Model_Quote extends Mage_Core_Model_Abstract
     protected $items = [];
     protected $billingAddress = null;
     protected $shippingAddress = null;
-    protected $shippingMethodId = null;
+    protected $shippingMethodCode = null;
+    protected $billingMethod = null;
 
     protected function _construct()
     {
@@ -61,7 +62,7 @@ class Ccc_Order_Model_Quote extends Mage_Core_Model_Abstract
         {
             return $this->customer;
         }
-        if(!$this->customerId)
+        if(!$this->getCustomerId())
         {
             return false;
         }
@@ -80,40 +81,76 @@ class Ccc_Order_Model_Quote extends Mage_Core_Model_Abstract
         $items = $collection->getResource()->getReadConnection()->fetchAll($collection->getSelect());
         return $items;
     }
-    public function setShippingAdddress()
+    public function setShippingAddress(Ccc_Order_Model_Quote_Address $address)
     {
-        
+        $this->shippingAddress = $address;
+        return $this;
     }
-    public function getShippingAdddress()
+    public function getShippingAddress()
     {
+        if(!$this->getId())
+        {
+            return false;
+        }
         $address = Mage::getModel('order/quote_address');
         $collection = $address->getCollection();
-        $customerId = $this->_getSession()->getCustomerId();
-        $this->load($customerId,'customer_id');
-        $quoteId = $this->getId();
-        $collection->getSelect()->where(new Zend_Db_Expr("quote_id = {$quoteId} AND customer_id = {$customerId} AND address_type = 'shipping'"));
-        $address = $collection->getResource()->getReadConnection()->fetchRow($collection->getSelect());
-        return $address;
+        $type = Ccc_Order_Model_Quote_Address::TYPE_SHIPPING;
+        $collection->getSelect()->where(new Zend_Db_Expr("customer_id = {$this->getCustomerId()} AND address_type = '{$type}'"));
+        $shippingAddress = $address->setData($collection->getResource()->getReadConnection()->fetchRow($collection->getSelect()));
+        $this->setShippingAddress($shippingAddress);
+        return $this->shippingAddress;
     }
-    public function setBillingAdddress()
+    
+    public function setBillingAddress(Ccc_Order_Model_Quote_Address $address)
     {
-        
+        $this->billingAddress = $address;
+        return $this;
     }
-    public function getBillingAdddress()
+    public function getBillingAddress()
     {
+        if(!$this->getId())
+        {
+            return false;
+        }
         $address = Mage::getModel('order/quote_address');
         $collection = $address->getCollection();
-        $customerId = $this->_getSession()->getCustomerId();
-        $collection->getSelect()->where(new Zend_Db_Expr("customer_id = {$customerId} AND address_type = 'billing'"));
-        $address = $collection->getResource()->getReadConnection()->fetchRow($collection->getSelect());
-        return $address;
+        $type = Ccc_Order_Model_Quote_Address::TYPE_BILLING;
+        $collection->getSelect()->where(new Zend_Db_Expr("customer_id = {$this->getCustomerId()} AND address_type = '{$type}'"));
+        $billingAddress = $address->setData($collection->getResource()->getReadConnection()->fetchRow($collection->getSelect()));
+        $this->setBillingAddress($billingAddress);
+        return $this->billingAddress;
     }
-    public function setBillingMethod()
+
+    public function setBillingMethod($method)
     {
-        
+        $this->billingMethod = $method;
+        return $this;
     }
     public function getBillingMethod()
     {
-        
+        $this->setBillingMethod($this->getPaymentMethod());
+        return $this->billingMethod;
+    }
+
+    public function setShippingMethodCode($method)
+    {
+        $this->shippingMethodCode = $method;
+        return $this;
+    }
+    public function getShippingMethodCode()
+    {
+        $this->setShippingMethodCode($this->getShippingMethod());
+        return $this->shippingMethodCode;
+    }
+
+    public function getSubTotal()
+    {
+        $subTotal = 0;
+        $items = $this->getItems();
+        foreach($items as $item)
+        {
+            $subTotal = $subTotal + $item['price']*$item['quantity'];
+        }
+        return $subTotal;
     }
 }

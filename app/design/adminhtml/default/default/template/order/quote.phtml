@@ -1,57 +1,90 @@
-<form id="main_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+<?php $customer = $this->getQuote()->getCustomer(); ?>
+<form id="quote_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
-    <div id="order-customer-account" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
-        <?php echo $this->getChildHtml('account') ?>
+    <div class="content-header">
+        <h3 class="icon-head head-adminhtml-order"></h3>
+        <h3 class="icon-head head-sales-order">Create New Order for <?php echo $customer->getFirstname() ?> <?php echo $customer->getLastname() ?> </h3>
+        <p class="form-buttons">
+            <button id="reset_order_top_button" title="Cancel" type="button" class="scalable cancel"
+                onclick="deleteConfirm('Are you sure you want to cancel this order?', '<?php echo $this->getUrl('*/*/cancel') ?>')"
+                ><span><span><span>Cancel</span></span></span></button>
+            <button id="submit_order_top_button" title="Submit Order" type="button" class="scalable save"
+                onclick="formSubmit()"><span><span><span>Submit Order</span></span></span></button>
+        </p>
     </div>
     <div id="product_grid" style="display: none;">
         <?php echo $this->getChildHtml('product') ?>
     </div>
     <div id="item_grid" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
-        <?php echo $this->getChildHtml('items') ?>
+        <?php echo $this->getChild('items_grid')->setQuote($this->getQuote())->toHtml(); ?>
     </div>
-    <div id="address">
-        <?php echo $this->getChildHtml('billing_address') ?>
+    <div id="order-customer-account" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('account') ?>
     </div>
-    <div id="address">
-        <?php echo $this->getChildHtml('shipping_address') ?>
+    <div class="address">
+    <div id="billing_address">
+        <?php echo $this->getChild('billing_address')->setQuote($this->getQuote())->toHtml() ;?>
     </div>
-    <div class="entry-edit">
-    <div class="entry-edit-head">
-        <h4 class="fieldset-legend <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>">Shipping Method</h4>
+    <div id="shipping_address">
+        <?php echo $this->getChild('shipping_address')->setQuote($this->getQuote())->toHtml() ; ?>
     </div>
-    <div class="fieldset">
-        <?php echo $this->getChildHtml('shipping_method') ?>
     </div>
-</div>
-<div class="entry-edit">
-    <div class="entry-edit-head">
-        <div style="float: right;"><?php echo $this->getButtonsHtml() ?></div>
-        <h4 class="fieldset-legend <?php echo ($this->getHeaderCssClass()) ? $this->getHeaderCssClass().' icon-head' : '' ?>">Payment Method</h4>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('shipping_method')->setQuote($this->getQuote())->toHtml(); ?>
     </div>
-    <div class="fieldset">
-        <?php echo $this->getChildHtml('billing_method') ?>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('billing_method')->setQuote($this->getQuote())->toHtml(); ?>
     </div>
-
-    <div class="fieldset">
-        <?php echo $this->getChildHtml('totals') ?>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('totals')->setQuote($this->getQuote())->toHtml(); ?>
     </div>
 
 </form>
 
 <script type="text/javascript">
-     function showAction(){
-          var grid = document.getElementById('product_grid');
-          grid.style.display = '';
-     };
-     function updateAction(){
-          var form = document.getElementById('main_form');
-          form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
-          form.submit();
-     }
-     function formSubmit(){
-          var form = document.getElementById('main_form');
-          form.setAttribute('action', "<?php echo $this->getUrl('*/*/save') ?>")
-          form.submit();
-     }
-     
+function showAction() {
+    var grid = document.getElementById('product_grid');
+    grid.style.display = '';
+};
+
+function updateAction() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+    form.submit();
+}
+
+function formSubmit() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/save') ?>")
+    form.submit();
+}
+
+function saveProduct() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/saveProduct') ?>")
+    form.submit();
+}
+
+function accountAction() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/account') ?>")
+    form.submit();
+}
+
+function deleteItem() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/delete') ?>")
+    form.submit();
+}
+function methodSave() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/method') ?>")
+    form.submit();
+}
+function biilingMethodSave() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/billingMethod') ?>")
+    form.submit();
+}
 </script>
+

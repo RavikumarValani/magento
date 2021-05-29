@@ -1,29 +1,27 @@
 <?php
 class Ccc_Order_Block_Adminhtml_Order_Quote_Totals extends Mage_Adminhtml_Block_Widget_Form
 {
+    protected $quote = null;
 
-    public function getSubTotal()
+    public function setQuote(Ccc_Order_Model_Quote $quote)
     {
-        $sub = 0;
-        $quote = Mage::getModel('order/quote');
-        $items = $quote->getItems();
-        foreach($items as $item)
-        {
-            $sub = $sub + $item['price'];
-        }
-        return $sub;
+        $this->quote = $quote;
+        return $this;
     }
 
+    public function getQuote()
+    {
+        return $this->quote;
+    }
+
+    public function getShippingAmount()
+    {
+        $quote = $this->getQuote();
+        return $quote->getShippingAmount();
+    }
+    
     public function getTotal()
     {
-        $sub = 0;
-        $quote = Mage::getModel('order/quote');
-        $items = $quote->getItems();
-        foreach($items as $item)
-        {
-            $sub = $sub + $item['price'];
-        }
-        return $sub;
+        return ($this->getQuote()->getSubTotal() + $this->getShippingAmount());
     }
-
 }

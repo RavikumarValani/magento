@@ -5,48 +5,21 @@
     <order_adminhtml_order_create_index>
         <reference name="root">
             <block type="order/adminhtml_order_create" name="content">
-                <block type="order/adminhtml_order_create_form" template="order/create/form.phtml" name="form">
-                    <block type="order/adminhtml_order_create_customer" template="order/create/abstract.phtml" name="customer" >
-                        <block type="order/adminhtml_order_create_customer_grid" name="grid" />
+                <block type="order/adminhtml_order_quote_form" template="order/quote/form.phtml" name="form">
+                    <block type="order/adminhtml_order_quote_customer"  name="customer" >
+                        <block type="order/adminhtml_order_quote_customer_grid" name="grid" />
                     </block>
                 </block>
             </block>
         </reference>
     </order_adminhtml_order_create_index>
-<!-- 
+
     <order_adminhtml_order_create_new>
         <reference name="content">
-            <block type="order/adminhtml_order_product" name="product">
-                <block type="order/adminhtml_order_product_form" template="order/create/product.phtml" name="form">
-                    <block type="order/adminhtml_order_cart_account" template="order/cart/form/account.phtml" name="account" />
-                    <block type="order/adminhtml_order_create_search" template="order/create/search.phtml" name="search">
-                        <block type="order/adminhtml_order_create_search_grid" name="grid" />
-                    </block>
-                    <block type="order/adminhtml_order_create_items" template="order/create/items.phtml" name="items">
-                        <block type="order/adminhtml_order_create_items_grid" template="order/create/items/grid.phtml" name="items_grid">
-                        </block>
-                    </block>
-                    <block type="order/adminhtml_order_create_billing_address" template="order/create/form/address.phtml" name="billing_address" />
-                    <block type="order/adminhtml_order_create_shipping_address" template="order/create/form/shipping.phtml" name="shipping_address" />
-                    <block type="order/adminhtml_order_create_shipping_method" template="order/create/abstract.phtml" name="shipping_method">
-                        <block type="order/adminhtml_order_create_shipping_method_form" template="order/create/shipping/method/form.phtml" name="form" />
-                    </block>
-                    <block type="order/adminhtml_order_create_billing_method" template="order/create/abstract.phtml" name="billing_method">
-                        <block type="order/adminhtml_order_create_billing_method_form" template="order/create/billing/method/form.phtml" name="form" />
-                    </block>
-                    <block type="order/adminhtml_order_create_totals" template="order/create/totals.phtml" name="totals" />
-                </block>
-                </block>
-        </reference> -->
-    <order_adminhtml_order_create_new>
-        <reference name="root">
-                <block type="order/adminhtml_order_quote" template="order/quote.phtml" name="content">
+                <block type="order/adminhtml_order_quote" template="order/quote.phtml" name="quote">
                     <block type="order/adminhtml_order_quote_form_account" template="order/quote/form/account.phtml" name="account" />
                     <block type="order/adminhtml_order_quote_product" name="product"/>
-                    <block type="order/adminhtml_order_quote_items" template="order/quote/items.phtml" name="items">
-                        <block type="order/adminhtml_order_quote_items_grid" template="order/quote/items/grid.phtml" name="items_grid">
-                        </block>
-                    </block>
+                    <block type="order/adminhtml_order_quote_items_grid" template="order/quote/items/grid.phtml" name="items_grid" />
                     <block type="order/adminhtml_order_quote_billing_address" template="order/quote/form/billing.phtml" name="billing_address" />
                     <block type="order/adminhtml_order_quote_shipping_address" template="order/quote/form/shipping.phtml" name="shipping_address" />
                     <block type="order/adminhtml_order_quote_shipping_method" template="order/quote/shipping/method.phtml" name="shipping_method"/>
@@ -62,27 +35,4 @@
         </reference>
     </order_adminhtml_order_index>
 
-    <!-- <adminhtml_order_create_index>
-        <reference name="left">
-            <action method="setIsCollapsed"><value>true</value></action>
-        </reference>
-        <reference name="head">
-            <action method="addJs"><file>mage/adminhtml/sales.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/giftmessage.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/product/composite/configure.js</file></action>
-            <action method="addJs"><file>varien/configurable.js</file></action>
-            <action method="addJs"><file>mage/adminhtml/giftoptions/tooltip.js</file></action>
-            <block type="adminhtml/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
-        </reference>
-        <reference name="js">
-            <block type="adminhtml/template" template="sales/order/create/js.phtml" name="create" />
-        </reference>
-        <reference name="root">
-            <block type="adminhtml/sales_order_create" name="content">
-                <block type="adminhtml/sales_order_create_form" template="sales/order/create/form.phtml" name="form">
-                    
-                </block>
-            </block>
-        </reference>
-    </adminhtml_order_create_index> -->
 </layout>

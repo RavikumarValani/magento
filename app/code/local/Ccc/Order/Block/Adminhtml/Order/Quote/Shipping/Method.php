@@ -1,6 +1,7 @@
 <?php
 class Ccc_Order_Block_Adminhtml_Order_Quote_Shipping_Method extends Mage_Adminhtml_Block_Widget_Form
 {
+    protected $quote = null;
 
     public function __construct()
     {
@@ -23,5 +24,21 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Shipping_Method extends Mage_Adminht
  		$shippingMethods = Mage::getModel('shipping/config')->getActiveCarriers(); 
  		return $shippingMethods;
  	}
+
+     public function setQuote(Ccc_Order_Model_Quote $quote)
+     {
+         $this->quote = $quote;
+         return $this;
+     }
+ 
+     public function getQuote()
+     {
+         return $this->quote;
+     }
+ 
+     public function getShippingCode()
+     {
+        return $this->getQuote()->getShippingMethodCode();
+     }
 
 }

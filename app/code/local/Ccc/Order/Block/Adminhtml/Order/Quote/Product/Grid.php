@@ -31,7 +31,6 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Product_Grid extends Mage_Adminhtml_
         $collection
             ->setStore($this->getStore())
             ->addAttributeToSelect($attributes)
-            ->addAttributeToFilter('type_id','simple')
             ->addAttributeToSelect('sku')
             ->addStoreFilter()
             ->addAttributeToFilter('type_id', array_keys(
@@ -88,32 +87,5 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Product_Grid extends Mage_Adminhtml_
         ));
 
         return $this;
-    }
-
-    protected function _getSelectedProducts()
-    {
-        $products = $this->getRequest()->getPost('products', array());
-        return $products;
-    }
-
-    /**
-     * Retrieve gift message save model
-     *
-     * @deprecated after 1.4.2.0
-     * @return Mage_Adminhtml_Model_Giftmessage_Save
-     */
-    protected function _getGiftmessageSaveModel()
-    {
-        return Mage::getSingleton('adminhtml/giftmessage_save');
-    }
-
-    /*
-     * Add custom options to product collection
-     *
-     * return Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _afterLoadCollection() {
-        $this->getCollection()->addOptionsToResult();
-        return parent::_afterLoadCollection();
     }
 }

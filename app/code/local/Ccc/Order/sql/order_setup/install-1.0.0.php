@@ -23,6 +23,8 @@ $table = $installer->getConnection()
         ), 'Payment Method')
         ->addColumn('shipping_amount', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Shipping Amount')
+        ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
+        ), 'Status')
         ->addColumn('base_grand_total', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
             ), 'Base Grand Total')
         ->addColumn('discount', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
