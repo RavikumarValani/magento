@@ -187,7 +187,7 @@
                 $shippingMethod = explode(',',$shippingMethod);
                 $shippingAmount = $shippingMethod[1];
                 $shippingName = $shippingMethod[0];
-                if($shippingName)
+                if(!$shippingName)
                 {
                     throw new Exception("Please select one shipping method.");
                 }

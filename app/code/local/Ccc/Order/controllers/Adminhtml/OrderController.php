@@ -100,8 +100,9 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
 
     public function cancelAction()
        {
-           $order = $this->getOrder();
-           $order->delete();
+            $order = $this->getOrder();
+            $order->setStatus('canceled');
+            $order->save();
            $this->_redirect('*/*/');
        }
 
