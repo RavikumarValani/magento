@@ -31,8 +31,24 @@
 
     <order_adminhtml_order_index>
         <reference name="content">
-            <block type="order/adminhtml_order"></block>
+            <block type="order/adminhtml_order" >
+            </block>
         </reference>
     </order_adminhtml_order_index>
+
+    <order_adminhtml_order_show>
+        <reference name="content">
+            <block type="order/adminhtml_order_show" template="order/show.phtml" name="show">
+                <block type="order/adminhtml_order_show_details" template="order/show/details.phtml" name="details"></block>
+                <block type="order/adminhtml_order_show_account" template="order/show/account.phtml" name="account"></block>
+                <block type="order/adminhtml_order_show_billing_address" template="order/show/billing/address.phtml" name="billing_address"></block>
+                <block type="order/adminhtml_order_show_shipping_address" template="order/show/shipping/address.phtml" name="shipping_address"></block>
+                <block type="order/adminhtml_order_show_billing_method" template="order/show/billing/method.phtml" name="billing_method"></block>
+                <block type="order/adminhtml_order_show_shipping_method" template="order/show/shipping/method.phtml" name="shipping_method"></block>
+                <block type="order/adminhtml_order_show_items" template="order/show/items.phtml" name="items"></block>
+                <block type="order/adminhtml_order_show_totals" template="order/show/totals.phtml" name="totals"></block>
+            </block>
+        </reference>
+    </order_adminhtml_order_show>
 
 </layout>

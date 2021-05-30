@@ -80,4 +80,9 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
         return $this->getUrl('*/*/index', array('_current'=>true));
     }
 
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/start', array('order_id' => $row->getId()));
+    }
+
 }

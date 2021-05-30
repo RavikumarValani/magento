@@ -86,5 +86,9 @@ function biilingMethodSave() {
     form.setAttribute('action', "<?php echo $this->getUrl('*/*/billingMethod') ?>")
     form.submit();
 }
+function addItemSelect(){
+    var action = document.getElementById('order_create_search_grid_massaction-select').selectedIndex = '1';
+    order_create_search_grid_massactionJsObject.apply();
+};
 </script>
 

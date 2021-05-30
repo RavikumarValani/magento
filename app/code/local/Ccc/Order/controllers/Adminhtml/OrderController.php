@@ -7,22 +7,52 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
         $this->_setActiveMenu('order');
         $this->renderLayout();
     }
-    public function newAction()
+    protected function _initSession($orderId)
     {
-        $this->_forward('edit');
+        $session = $this->_getSession();
+        $session->setOrderId($orderId);
+        $this->_redirect('*/*/show');
     }
 
-    public function editAction()
+    public function startAction()
     {
-        $orderId = $this->getRequest()->getParam('id');
-
-        $orderModel = Mage::getModel('order/order')->load($orderId);
-        if ($orderModel->getId()) {
-            Mage::register('order_data', $orderModel);
+        try {
+            $orderId = $this->getRequest()->getParam('order_id');
+            if(!$orderId)
+            {
+                throw new Exception("Order not Exist.");
+            }
+            $this->_initSession($orderId);
         }
-        $this->loadLayout();
-        $this->renderLayout();
+        catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/index');
+        }
     }
+
+    public function showAction()
+    {
+        try {
+            $this->loadLayout();
+            $this->getLayout()->getBlock('show')->setOrder($this->getOrder());
+            $this->renderLayout();
+
+        }
+        catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/index');
+        }
+    }
+
+    protected function getOrder()
+    {
+        $order = Mage::getModel('order/order');
+        $orderId = $this->_getSession()->getOrderId();
+        $order->load($orderId);
+        return $order;
+    }
+
+
 
     public function saveAction()
     {
@@ -69,24 +99,10 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
     }
 
     public function cancelAction()
-    {
-        if ($order = $this->_initOrder()) {
-            try {
-                $order->cancel()
-                    ->save();
-                $this->_getSession()->addSuccess(
-                    $this->__('The order has been cancelled.')
-                );
-            }
-            catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
-            catch (Exception $e) {
-                $this->_getSession()->addError($this->__('The order has not been cancelled.'));
-                Mage::logException($e);
-            }
-            $this->_redirect('*/*/index', array('order_id' => $order->getId()));
-        }
-    }
+       {
+           $order = $this->getOrder();
+           $order->delete();
+           $this->_redirect('*/*/');
+       }
 
 }

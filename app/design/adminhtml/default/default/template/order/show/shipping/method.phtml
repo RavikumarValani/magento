@@ -1,0 +1,13 @@
+<?php $order = $this->getOrder() ?>
+<div class="box-right">
+    <!--Shipping Method-->
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4 class="icon-head head-shipping-method">Shipping &amp; Handling Information</h4>
+        </div>
+        <fieldset>
+            <strong><?php echo $order->getShippingMethod() ?></strong>
+            <span class="price">₹<?php echo $order->getShippingAmount() ?></span>
+        </fieldset>
+    </div>
+</div>
