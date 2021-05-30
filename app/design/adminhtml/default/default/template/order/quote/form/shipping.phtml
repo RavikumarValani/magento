@@ -26,7 +26,8 @@
         <input id="order-shipping_address_prefix" name="order[shipping_address][prefix]" value="<?php echo $shipping->getPrefix() ?>" class=" input-text" type="text">            </td>
     </tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_firstname">First Name </label></td>
+        <td class="label"><label for="order-shipping_address_firstname">First Name<span
+                                                class="required">*</span> </label></td>
     <td class="value">
         <input id="order-shipping_address_firstname" name="order[shipping_address][firstname]" value="<?php echo $shipping->getFirstname() ?>" class=" required-entry input-text required-entry" type="text">            </td>
     </tr>
@@ -36,7 +37,8 @@
         <input id="order-shipping_address_middlename" name="order[shipping_address][middlename]" value="<?php echo $shipping->getMiddlename() ?>" class=" input-text" type="text">            </td>
     </tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_lastname">Last Name </label></td>
+        <td class="label"><label for="order-shipping_address_lastname">Last Name <span
+                                                class="required">*</span></label></td>
     <td class="value">
         <input id="order-shipping_address_lastname" name="order[shipping_address][lastname]" value="<?php echo $shipping->getLastname() ?>" class=" required-entry input-text required-entry" type="text">            </td>
     </tr>
@@ -51,19 +53,22 @@
         <input id="order-shipping_address_company" name="order[shipping_address][company]" value="" class=" input-text" type="text">            </td>
     </tr>
 <tr> -->
-        <td class="label"><label for="order-shipping_address_street0">Street Address </label></td>
+        <td class="label"><label for="order-shipping_address_street0">Street Address <span
+                                                class="required">*</span></label></td>
     <td class="value">
         <div class="multi-input"><input id="order-shipping_address_street0" name="order[shipping_address][street]" value="<?php if(is_array($shipping->getStreet()[0])){echo $shipping->getStreet()[0];} else { echo $shipping->getStreet()[0] ;}  ?>" class="input-text required-entry" type="text">
 </div><!-- <div class="multi-input"><input id="order-shipping_address_street1" name="order[shipping_address][street][1]" value="" class="input-text" type="text">
 </div> -->            </td>
     </tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_city">City </label></td>
+        <td class="label"><label for="order-shipping_address_city">City<span
+                                                class="required">*</span> </label></td>
     <td class="value">
         <input id="order-shipping_address_city" name="order[shipping_address][city]" value="<?php echo $shipping->getCity() ?>" class=" required-entry input-text required-entry" type="text"></td>
     </tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_country_id">Country </label></td>
+        <td class="label"><label for="order-shipping_address_country_id">Country<span
+                                                class="required">*</span> </label></td>
     <td class="value">
         <select id="order-shipping_address_country_id" name="order[shipping_address][country_id]" class=" required-entry required-entry select">
         <?php foreach($countries as $contry): ?>
@@ -76,13 +81,15 @@
 <select id="order-shipping_address_region_id" name="order[shipping_address][region_id]" class="select" style="display:none" defaultvalue="" disabled=""><option value="">Please select</option></select>
 </td></tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_postcode">Zip/Postal Code </label></td>
+        <td class="label"><label for="order-shipping_address_postcode">Zip/Postal Code<span
+                                                class="required">*</span> </label></td>
     <td class="value">
     <input id="order-shipping_address_postcode" name="order[shipping_address][postcode]" value="<?php echo $shipping->getPostcode()  ?>" class=" required-entry input-text required-entry" type="text">
 </td>
     </tr>
 <tr>
-        <td class="label"><label for="order-shipping_address_telephone">Telephone </label></td>
+        <td class="label"><label for="order-shipping_address_telephone">Telephone<span
+                                                class="required">*</span> </label></td>
     <td class="value">
         <input id="order-shipping_address_telephone" name="order[shipping_address][telephone]" value="<?php echo $shipping->getTelephone() ?>" class=" required-entry input-text required-entry" type="text">            </td>
     </tr>

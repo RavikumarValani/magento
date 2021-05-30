@@ -74,12 +74,9 @@ class Ccc_Order_Model_Quote extends Mage_Core_Model_Abstract
     {
         $item = Mage::getModel('order/quote_item');
         $collection = $item->getCollection();
-        $customerId = $this->_getSession()->getCustomerId();
-        $this->load($customerId,'customer_id');
         $quoteId = $this->getId();
         $collection->getSelect()->where(new Zend_Db_Expr("quote_id = {$quoteId}"));
-        $items = $collection->getResource()->getReadConnection()->fetchAll($collection->getSelect());
-        return $items;
+        return $collection;
     }
     public function setShippingAddress(Ccc_Order_Model_Quote_Address $address)
     {
@@ -149,7 +146,7 @@ class Ccc_Order_Model_Quote extends Mage_Core_Model_Abstract
         $items = $this->getItems();
         foreach($items as $item)
         {
-            $subTotal = $subTotal + $item['price']*$item['quantity'];
+            $subTotal = $subTotal + $item->getPrice()*$item->getQuantity();
         }
         return $subTotal;
     }

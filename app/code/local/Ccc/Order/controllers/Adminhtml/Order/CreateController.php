@@ -40,6 +40,11 @@
 
                 if(array_filter($data['billing_address']))
                 {
+                    $billing = $data['billing_address'];
+                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
+                    {
+                        throw new Exception("Enter all billing address required field value.");                
+                    }
                     $quote = $this->getQuote();
                     $billingAddress = $quote->getBillingAddress();
                     $billingAddress->addData($data['billing_address']);
@@ -48,19 +53,14 @@
                     $billingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_BILLING);
                     $billingAddress->save();
                 }
-                if(array_filter($data['shipping_address']))
-                {
-                    $quote = $this->getQuote();
-                    $shippingAddress = $quote->getShippingAddress();
-                    $shippingAddress->addData($data['shipping_address']);
-                    $shippingAddress->setCustomerId($quote->getCustomerId());
-                    $shippingAddress->setQuoteId($quote->getId());
-                    $shippingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_SHIPPING);
-                    $shippingAddress->save();
-                }
                 $billingCheck = $this->getRequest()->getPost('billing_check');
                 if($billingCheck)
                 {
+                    $billing = $data['billing_address'];
+                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
+                    {
+                        throw new Exception("Enter all billing address required field value.");                
+                    }
                     $quote = $this->getQuote();
                     $customer = $quote->getCustomer();
                     $customerBillingAddress = $customer->getBillingAddress();
@@ -75,30 +75,49 @@
                     $customerBillingAddress->setSaveInAddressBook('1');
                     $customerBillingAddress->save();
                 }
+                if(array_filter($data['shipping_address']))
+                {
+                    $quote = $this->getQuote();
+                    $shippingAddress = $quote->getShippingAddress();
+                    $shippingAddress->addData($data['shipping_address']);
+                    $shippingAddress->setCustomerId($quote->getCustomerId());
+                    $shippingAddress->setQuoteId($quote->getId());
+                    $shippingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_SHIPPING);
+                    $shippingAddress->save();
+                }
                 $sameAsBilling = $this->getRequest()->getPost('same_billing');
                 if($sameAsBilling)
                 {
-                    echo "<pre>";
+                    
+                    $billing = $data['billing_address'];
+                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
+                    {
+                        throw new Exception("Enter required field in billing address.");                
+                    }
                     $quote = $this->getQuote();
                     $billingAddress = $quote->getBillingAddress();
                     $address = $billingAddress->getData();
-                    print_r($address);
                     unset($address['entity_id']);
 
                     $shippingAddress = $quote->getShippingAddress();
                     $shippingAddress->addData($address);
 
                     $shippingAddress->setAddressType(Ccc_Order_Model_Quote_Address::TYPE_SHIPPING);
-                    print_r($shippingAddress);
                     $shippingAddress->save();
                     
                 }
                 $shippingCheck = $this->getRequest()->getPost('shipping_check');
-                if ($shippingCheck) {
+                if ($shippingCheck) {  
                     $quote = $this->getQuote();
                     $customer = $quote->getCustomer();
                     $customerShippingAddress = $customer->getShippingAddress();
-                    $quoteShippingAddress = $quote->getShippingAddress()->getData();
+                    $shipping = $data['shipping_address'];
+                    $quoteShippingAddress = $quote->getShippingAddress();
+                    if(!$quoteShippingAddress->getId())
+                    {
+                        throw new Exception("Enter all shipping address required field value.");                
+                    }
+                    $quoteShippingAddress = $quoteShippingAddress->getData();
                     unset($quoteShippingAddress['entity_id']);
                     unset($quoteShippingAddress['quote_id']);
                     unset($quoteShippingAddress['customer_address_id']);
@@ -265,7 +284,7 @@
             try {
                 $quote = $this->getQuote();
                 $items = $quote->getItems();
-                if(!array_filter($items))
+                if(count($items) == 0)
                 {
                         throw new Exception("Please add product.");
                 }
@@ -306,16 +325,17 @@
                 $order->setShippingName($shippingData['firstname']);
                 $order->setBillingName($billingData['firstname']);
                 $order->setCustomerId($quote->getCustomerId());
+                $order->setBaseGrandTotal($subTotal);
                 $order->save();
                 $orderId = $order->getId();
                 $quote = $this->getQuote();
                 $items = $quote->getItems();
                 
-                foreach ($items as $key => $item) {
+                foreach ($items as $item) {
                         $orderItem = Mage::getModel('order/order_item');
                         unset($item['item_id']);
                         unset($item['quote_id']);
-                        $orderItem->setData($item);
+                        $orderItem->setData($item->getData());
                         $orderItem->setOrderId($orderId);
                         print_r($orderItem);
                         $orderItem->save();

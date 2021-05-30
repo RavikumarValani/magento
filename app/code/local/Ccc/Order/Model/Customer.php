@@ -11,7 +11,7 @@ class Ccc_Order_Model_Customer extends Mage_Customer_Model_Customer
     }
     public function getBillingAddress()
     {
-        if ($this->getBillingAddress) {
+        if ($this->billingAddress) {
             return $this->billingAddress;
         }
         if (!$this->getId()) {
@@ -30,7 +30,7 @@ class Ccc_Order_Model_Customer extends Mage_Customer_Model_Customer
     }
     public function getShippingAddress()
     {
-        if ($this->getShippingAddress) {
+        if ($this->shippingAddress) {
             return $this->shippingAddress;
         }
         if (!$this->getId()) {

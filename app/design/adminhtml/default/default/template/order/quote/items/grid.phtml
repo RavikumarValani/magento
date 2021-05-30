@@ -4,7 +4,7 @@
         <button class="scalable add" style="float: right;" onclick="showAction()" type="button"><span>Add Products</span></button>
     </div>
 <?php $_items = $this->getQuote()->getItems() ?>
-<?php if (empty($_items)): ?>
+<?php if (count($_items) == 0): ?>
     <div class="grid" id="items_grid">
         <table cellspacing="0" class="data order-tables">
             <col />
@@ -58,10 +58,10 @@
             <?php foreach($_items as $key =>$item): ?>
             <tbody>
                 <tr>
-                <td><?php echo $item['sku'] ?><br><?php echo $item['name'] ?></td>
-                <td> <?php echo $item['price'] ?></td>
-                <td><input type="number" min="1" name="product[<?php echo $item['item_id'] ?>][quantity]" value="<?php echo $item['quantity'] ?>"></td>
-                <td><button name="delete[<?php echo $item['item_id'] ?>]" onclick="deleteItem()">Delete</button></td>
+                <td><?php echo $item->getSku() ?><br><?php echo $item->getName() ?></td>
+                <td> <?php echo $item->getPrice() ?></td>
+                <td><input type="number" min="1" name="product[<?php echo $item->getId() ?>][quantity]" value="<?php echo $item->getQuantity() ?>"></td>
+                <td><button name="delete[<?php echo $item->getId() ?>]" onclick="deleteItem()">Delete</button></td>
                 </tr>
             </tbody>
             <?php endforeach; ?>
