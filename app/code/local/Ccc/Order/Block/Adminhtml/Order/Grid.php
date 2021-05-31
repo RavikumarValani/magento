@@ -70,6 +70,26 @@ class Ccc_Order_Block_Adminhtml_Order_Grid extends Mage_Adminhtml_Block_Widget_G
             'type' => 'datetime',
             'width' => '100px',
         ));
+        $this->addColumn('start',
+            array(
+                'header' => Mage::helper('catalog')->__('Action'),
+                
+                'type' => 'action',
+                'getter' => 'getId',
+                'actions' => array(
+                    array(
+                        'caption' => Mage::helper('catalog')->__('View'),
+                        'url' => array(
+                            'base' => '*/*/start',
+                            'params' => array('store' => $this->getRequest()->getParam('store')),
+                        ),
+                        'field' => 'order_id',
+                    ),
+                ),
+                'filter' => false,
+                'sortable' => false,
+                'index' => 'stores',
+            ));
        
         return parent::_prepareColumns();
     }

@@ -11,14 +11,18 @@ class Ccc_Order_Block_Adminhtml_Order_Create extends Mage_Adminhtml_Block_Widget
         parent::__construct();
 
         $this->setId('order_create');
-
         
         $this->_updateButton('save', 'style', 'display:none');
         $this->_updateButton('reset', 'style', 'display:none');
-
+        
         $this->_updateButton('back', 'id', 'back_order_top_button');
         $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getBackUrl() . '\')');
-
+        
+        $this->_addButton('create_customer', array(
+            'label'     => Mage::helper('order')->__('Create New Customer'),
+            'onclick'   => "location.href='".$this->getUrl('adminhtml/customer/new')."'",
+            'class'     => '',
+        ));
         
         $this->_headerText = $this->getHeaderText();
     }
