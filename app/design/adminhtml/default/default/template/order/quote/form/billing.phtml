@@ -1,0 +1,161 @@
+<?php  $billing = $this->getBillingAddress(); ?>
+<?php  $countries = $this->getCountry(); ?>
+<div class="box-left">
+    <div class="entry-edit">
+
+        <div class="entry-edit-head">
+            <h4 class="icon-head fieldset-legend head-billing-address">Billing Address</h4>
+            <button style="float: right;" type="button" onclick="updateBillingAction()" name="billing"
+                class="scalable task">Save</button>
+
+        </div>
+        <div class="order-save-in-address-book" style="height: 20px;">
+        </div>
+
+        <fieldset class="np">
+
+            <div class="order-address" id="order-billing_address_fields">
+                <div class="content">
+                    <div class="hor-scroll">
+                        <table cellspacing="0" class="form-list">
+                            <tbody>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_prefix">Prefix</label></td>
+                                    <td class="value">
+                                        <input id="order-billing_address_prefix" name="order[billing_address][prefix]"
+                                            value="<?php echo $billing->getPrefix() ?>" class=" input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_firstname">First Name <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input id="firstname"
+                                            name="order[billing_address][firstname]"
+                                            value="<?php echo $billing->getFirstname() ?>"
+                                            class="billing-required_field input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_middlename">Middle
+                                            Name/Initial</label></td>
+                                    <td class="value">
+                                        <input id="order-billing_address_middlename"
+                                            name="order[billing_address][middlename]"
+                                            value="<?php echo $billing->getMiddlename() ?>" class=" input-text"
+                                            type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_lastname">Last Name <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input id="lastname"
+                                            name="order[billing_address][lastname]"
+                                            value="<?php echo $billing->getLastname() ?>"
+                                            class="billing-required_field input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_suffix">Suffix</label></td>
+                                    <td class="value">
+                                        <input id="order-billing_address_suffix" name="order[billing_address][suffix]"
+                                            value="<?php echo $billing->getSuffix() ?>" class=" input-text" type="text">
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+        <td class="label"><label for="order-billing_address_company">Company</label></td>
+    <td class="value">
+        <input id="order-billing_address_company" name="order[billing_address][company]" value="" class=" input-text" type="text">            </td>
+    </tr> -->
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_street0">Street Address <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <div class="multi-input"><input id="street"
+                                                name="order[billing_address][street]"
+                                                value="<?php if(is_array($billing->getStreet())){echo $billing->getStreet()[0];} else { echo $billing->getStreet()[0] ;}  ?>"
+                                                class="billing-required_field input-text" type="text">
+                                        </div>
+                                        <!-- <div class="multi-input"><input id="order-billing_address_street1" name="order[billing_address][street][1]" value="" class="input-text" type="text">
+</div> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_city">City <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input id="city" name="order[billing_address][city]"
+                                            value="<?php echo $billing->getCity() ?>"
+                                            class="billing-required_field input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_country_id">Country <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <select id="country"
+                                            name="order[billing_address][country_id]"
+                                            class="billing-required_field input-text">
+                                            <?php foreach($countries as $contry): ?>
+                                            <option
+                                                <?php if($billing->getCountryId() == $contry->getCountryId()): ?>selected
+                                                <?php endif; ?>value="<?php echo $contry->getCountryId() ?>">
+                                                <?php echo $contry->getName() ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_region">State/Province <span
+                                                class="required" style="display: none;">*</span></label>
+                                    </td>
+                                    <td class="value"><input id="order-billing_address_region"
+                                            name="order[billing_address][region]"
+                                            value="<?php if($billing->getState()){echo $billing->getState();}else{echo $billing->getRegion(); } ?>"
+                                            class="input-text" type="text">
+                                        <select id="order-billing_address_region_id"
+                                            name="order[billing_address][region_id]" class="select" style="display:none"
+                                            defaultvalue="" disabled="">
+                                            <option value="">Please select</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="order-billing_address_postcode">Zip/Postal Code <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input id="postcode"
+                                            name="order[billing_address][postcode]"
+                                            value="<?php echo $billing->getPostcode()  ?>"
+                                            class="billing-required_field input-text" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="telephone">Telephone <span
+                                                class="required">*</span></label></td>
+                                    <td class="value">
+                                        <input id="order-billing_address_telephone"
+                                            name="order[billing_address][telephone]"
+                                            value="<?php echo $billing->getTelephone() ?>"
+                                            class="billing-required_field input-text" type="text">
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-save-in-address-book">
+                    <input name="billing_check" type="checkbox" id="order-billing_address_save_in_address_book"
+                        value="1">
+                    <label for="order-billing_address_save_in_address_book">Save in address book</label>
+                </div>
+            </div>
+            <div style="display: none; position: absolute; background-color: rgb(153, 153, 153); opacity: 0.8; width: 300px; height: 637px; top: 0px; left: 0px;"
+                id="address-shipping-overlay" class="overlay"><span>Shipping address selection is not applicable</span>
+            </div>
+
+        </fieldset>
+    </div>
+</div>

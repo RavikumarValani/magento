@@ -1,0 +1,50 @@
+<?php $items = $this->getOrder()->getItems() ?>
+
+<div class="grid np">
+    <div class="hor-scroll">
+        <table cellspacing="0" class="data order-tables">
+            <colgroup>
+                <col>
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+            </colgroup>
+            <thead>
+                <tr class="headings">
+                    <th>Product</th>
+                    <th><span class="nobr">Item Status</span></th>
+                    <th>Price</th>
+                    <th class="a-center">Sub Total</th>
+                    <th class="a-center">Qty</th>
+                </tr>
+            </thead>
+            <tbody class="even">
+                <?php foreach($items as $key => $item): ?>
+                <tr class="border">
+                    <td>
+                        <div id="order_item_12" class="item-container">
+                            <div class="item-text">
+
+                                <h5 class="title"><span id="order_item_12_title"><?php echo $item->getName() ?></span></h5>
+                                <div><strong>SKU:</strong><?php echo $item->getSku() ?></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="a-center">Ordered</td>
+                    <td class="a-right"><span class="price">₹<?php echo $item->getPrice() ?></span></td>
+                    <td> ₹<?php echo $item->getPrice() * $item->getQuantity() ?></td>
+                    <td class="a-right"><?php echo $item->getQuantity() ?>
+
+                    </td>
+                </tr>
+                    <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

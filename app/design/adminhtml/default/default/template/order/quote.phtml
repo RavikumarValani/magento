@@ -1,0 +1,134 @@
+<?php $customer = $this->getQuote()->getCustomer(); ?>
+<form id="quote_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <div class="content-header">
+        <h3 class="icon-head head-adminhtml-order"></h3>
+        <h3 class="icon-head head-sales-order">Create New Order for <?php echo $customer->getFirstname() ?> <?php echo $customer->getLastname() ?> </h3>
+        <p class="form-buttons">
+            <button id="reset_order_top_button" title="Cancel" type="button" class="scalable cancel"
+                onclick="deleteConfirm('Are you sure you want to cancel this order?', '<?php echo $this->getUrl('*/*/cancel') ?>')"
+                ><span><span><span>Cancel</span></span></span></button>
+            <button id="submit_order_top_button" title="Submit Order" type="button" class="scalable save"
+                onclick="formSubmit()"><span><span><span>Submit Order</span></span></span></button>
+        </p>
+    </div>
+    <div id="product_grid" style="display: none;">
+        <?php echo $this->getChildHtml('product') ?>
+    </div>
+    <div id="item_grid" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+        <?php echo $this->getChild('items_grid')->setQuote($this->getQuote())->toHtml(); ?>
+    </div>
+    <div id="order-customer-account" style="display:<?php echo $this->getCustomerSelectorDisplay() ?>">
+        <?php echo $this->getChildHtml('account') ?>
+    </div>
+    <div class="address">
+    <div id="billing_address">
+        <?php echo $this->getChild('billing_address')->setQuote($this->getQuote())->toHtml() ;?>
+    </div>
+    <div id="shipping_address">
+        <?php echo $this->getChild('shipping_address')->setQuote($this->getQuote())->toHtml() ; ?>
+    </div>
+    </div>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('shipping_method')->setQuote($this->getQuote())->toHtml(); ?>
+    </div>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('billing_method')->setQuote($this->getQuote())->toHtml(); ?>
+    </div>
+    <div class="entry-edit" >
+            <?php echo $this->getChild('totals')->setQuote($this->getQuote())->toHtml(); ?>
+    </div>
+
+</form>
+
+<script type="text/javascript">
+function showAction() {
+    var grid = document.getElementById('product_grid');
+    grid.style.display = '';
+};
+
+function formSubmit() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/save') ?>")
+    form.submit();
+}
+
+function saveProduct() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/saveProduct') ?>")
+    form.submit();
+}
+
+function accountAction() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/account') ?>")
+    form.submit();
+}
+
+function deleteItem() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/delete') ?>")
+    form.submit();
+}
+function methodSave() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/method') ?>")
+    form.submit();
+}
+function biilingMethodSave() {
+    var form = document.getElementById('quote_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/billingMethod') ?>")
+    form.submit();
+}
+// function updateAction() {
+//     var form = document.getElementById('quote_form');
+//     form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+//     form.submit();
+// }
+function addItemSelect(){
+    var action = document.getElementById('order_create_search_grid_massaction-select').selectedIndex = '1';
+    order_create_search_grid_massactionJsObject.apply();
+};
+
+function updateBillingAction() {
+    var element = document.getElementsByClassName("billing-required_field input-text");
+    var i;
+    var flag = 0;
+        for(i=0;i<7;i++)
+        {
+            if(!element[i].value)
+            {
+                flag = 1;
+                alert("Please enter " + element[i].id);
+            }
+        }
+        if(flag == 0)
+        {
+            var form = document.getElementById('quote_form');
+            form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+            form.submit();
+        }
+	}
+
+function updateShippingAction() {
+    var element = document.getElementsByClassName("shipping-required_field input-text");
+    var i;
+    var flag = 0;
+        for(i=0;i<7;i++)
+        {
+            if(!element[i].value)
+            {
+                flag = 1;
+                alert("Please enter " + element[i].id);
+            }
+        }
+        if(flag == 0)
+        {
+            var form = document.getElementById('quote_form');
+            form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+            form.submit();
+        }
+	}
+
+</script>
+
