@@ -77,6 +77,11 @@
                 }
                 if(array_filter($data['shipping_address']))
                 {
+                    $shipping = $data['shipping_address'];
+                    if(!($shipping['firstname'] && $shipping['lastname'] && $shipping['country_id'] && $shipping['street'] && $shipping['city'] && $shipping['postcode'] && $shipping['telephone']))
+                    {
+                        throw new Exception("Enter all shipping address required field value.");                
+                    }
                     $quote = $this->getQuote();
                     $shippingAddress = $quote->getShippingAddress();
                     $shippingAddress->addData($data['shipping_address']);
