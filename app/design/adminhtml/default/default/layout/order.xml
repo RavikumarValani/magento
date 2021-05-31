@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout version='1.0'>
+    
+    <order_adminhtml_order_create_index>
+        <reference name="root">
+            <block type="order/adminhtml_order_create" name="content">
+                <block type="order/adminhtml_order_quote_form" template="order/quote/form.phtml" name="form">
+                    <block type="order/adminhtml_order_quote_customer"  name="customer" >
+                        <block type="order/adminhtml_order_quote_customer_grid" name="grid" />
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </order_adminhtml_order_create_index>
+
+    <order_adminhtml_order_create_new>
+        <reference name="content">
+                <block type="order/adminhtml_order_quote" template="order/quote.phtml" name="quote">
+                    <block type="order/adminhtml_order_quote_form_account" template="order/quote/form/account.phtml" name="account" />
+                    <block type="order/adminhtml_order_quote_product" name="product"/>
+                    <block type="order/adminhtml_order_quote_items_grid" template="order/quote/items/grid.phtml" name="items_grid" />
+                    <block type="order/adminhtml_order_quote_billing_address" template="order/quote/form/billing.phtml" name="billing_address" />
+                    <block type="order/adminhtml_order_quote_shipping_address" template="order/quote/form/shipping.phtml" name="shipping_address" />
+                    <block type="order/adminhtml_order_quote_shipping_method" template="order/quote/shipping/method.phtml" name="shipping_method"/>
+                    <block type="order/adminhtml_order_quote_billing_method" template="order/quote/billing/method.phtml" name="billing_method"/>
+                    <block type="order/adminhtml_order_quote_totals" template="order/quote/totals.phtml" name="totals" />
+                </block>
+        </reference>
+    </order_adminhtml_order_create_new>
+
+    <order_adminhtml_order_index>
+        <reference name="content">
+            <block type="order/adminhtml_order" >
+            </block>
+        </reference>
+    </order_adminhtml_order_index>
+
+    <order_adminhtml_order_show>
+        <reference name="content">
+            <block type="order/adminhtml_order_show" template="order/show.phtml" name="show">
+                <block type="order/adminhtml_order_show_details" template="order/show/details.phtml" name="details"></block>
+                <block type="order/adminhtml_order_show_account" template="order/show/account.phtml" name="account"></block>
+                <block type="order/adminhtml_order_show_billing_address" template="order/show/billing/address.phtml" name="billing_address"></block>
+                <block type="order/adminhtml_order_show_shipping_address" template="order/show/shipping/address.phtml" name="shipping_address"></block>
+                <block type="order/adminhtml_order_show_billing_method" template="order/show/billing/method.phtml" name="billing_method"></block>
+                <block type="order/adminhtml_order_show_shipping_method" template="order/show/shipping/method.phtml" name="shipping_method"></block>
+                <block type="order/adminhtml_order_show_items" template="order/show/items.phtml" name="items"></block>
+                <block type="order/adminhtml_order_show_totals" template="order/show/totals.phtml" name="totals"></block>
+            </block>
+        </reference>
+    </order_adminhtml_order_show>
+
+</layout>
