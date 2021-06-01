@@ -47,6 +47,7 @@
                 <block type="order/adminhtml_order_show_shipping_method" template="order/show/shipping/method.phtml" name="shipping_method"></block>
                 <block type="order/adminhtml_order_show_items" template="order/show/items.phtml" name="items"></block>
                 <block type="order/adminhtml_order_show_totals" template="order/show/totals.phtml" name="totals"></block>
+                <block type="order/adminhtml_order_show_status" template="order/show/status.phtml" name="status"></block>
             </block>
         </reference>
     </order_adminhtml_order_show>

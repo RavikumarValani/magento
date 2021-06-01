@@ -6,8 +6,4 @@ class Ccc_Order_Model_Resource_Order_Item_Collection extends Mage_Core_Model_Res
         $this->_init('order/order_item');
     }
 
-    public function _afterLoad()
-    {
-        return $this;
-    }
 }

@@ -100,7 +100,7 @@ function updateBillingAction() {
             if(!element[i].value)
             {
                 flag = 1;
-                alert("Please enter " + element[i].id);
+                alert("Please enter billing " + element[i].id);
             }
         }
         if(flag == 0)
@@ -123,9 +123,14 @@ function updateShippingAction() {
             if(!element[i].value)
             {
                 flag = 1;
-                alert("Please enter " + element[i].id);
+                alert("Please enter shipping " + element[i].id);
             }
         }
+    }
+    else
+    {
+        updateBillingAction();
+        flag =1;
     }
         if(flag == 0)
         {

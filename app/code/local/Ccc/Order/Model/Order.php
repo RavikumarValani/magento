@@ -120,4 +120,12 @@ class Ccc_Order_Model_Order extends Mage_Core_Model_Abstract
         }
         return $subTotal;
     }
+
+    public function getStatuses()
+    {
+        $status = Mage::getModel('order/order_status');
+        $collection = $status->getCollection();
+        $collection->getSelect()->order(array('main_table.created_at DESC'))->where("order_id = ? ", $this->getId());
+        return $collection;
+    }
 }

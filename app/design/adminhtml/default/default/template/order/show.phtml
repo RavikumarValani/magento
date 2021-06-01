@@ -1,5 +1,5 @@
 <?php $order = $this->getOrder() ?>
-<form id="quote_form" method="post" enctype="multipart/form-data">
+<form id="show_form" method="post" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
     <div class="content-header">
         <h3 class="icon-head head-adminhtml-order"></h3>
@@ -8,9 +8,6 @@
         <button id="back_order_top_button" title="Back" type="button" class="scalable back" 
         onclick="setLocation('<?php echo $this->getBackUrl() ?>')" >
         <span><span><span>Back</span></span></span></button>
-            <button id="reset_order_top_button" title="Cancel" type="button" class="scalable cancel"
-                onclick="deleteConfirm('Are you sure you want to cancel this order?', '<?php echo $this->getUrl('*/*/cancel') ?>')"
-                ><span><span><span>Cancel</span></span></span></button>
         </p>
     </div>
     <div id="details">
@@ -37,7 +34,16 @@
     <div id="totals">
         <?php echo $this->getChild('totals')->setOrder($this->getOrder())->toHtml() ?>
     </div>
+    <div id="status">
+        <?php echo $this->getChild('status')->setOrder($this->getOrder())->toHtml() ?>
+    </div>
 
 </form>
 
-
+<script type="text/javascript">
+function setStatus() {
+    var form = document.getElementById('show_form');
+    form.setAttribute('action', "<?php echo $this->getUrl('*/*/saveStatus') ?>")
+    form.submit();
+};
+</script>

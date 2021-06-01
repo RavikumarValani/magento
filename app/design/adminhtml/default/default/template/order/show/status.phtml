@@ -1,0 +1,49 @@
+<?php $statuses = $this->getStatuses() ?>
+<?php $collection = $this->getOrder()->getStatuses() ?>
+<?php echo $this->getOrder()->getStatus() ?>
+<div class="box-left" style="padding-top: 20px;">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <h4>Comments History</h4>
+        </div>
+        <fieldset>
+            <div id="order_history_block">
+                <div id="history_form" class="order-history-form">
+                    <div>Add Order Comments</div>
+                    <span class="field-row">
+                        <label class="normal" for="history_status">Status</label><br>
+                        <select name="history[status]" class="select" id="history_status">
+                            <?php foreach($statuses as $key => $value): ?>
+                            <option value="<?php echo $key ?>" <?php if($this->getOrder()->getStatus() == $key): ?>selected <?php endif; ?>><?php echo $value ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </span>
+                    <span class="field-row">
+                        <label class="normal" for="history_comment">Comment</label>
+                        <textarea name="history[comment]" rows="3" cols="5" style="height:6em; width:99%;"
+                            id="history_comment"></textarea>
+                    </span>
+                    <div class="f-left">
+                        <input name="history[is_customer_notified]" type="checkbox" id="history_notify" value="1"><label
+                            class="normal" for="history_notify"> Notify Customer by Email</label><br>
+                    </div>
+                    <div class="f-right">
+                        <button id="id_3f8f47e4627b1595a0778f15932a8ade" title="Submit Comment" onclick="setStatus()" type="button"
+                            class="scalable save"><span><span><span>Submit
+                                        Comment</span></span></span></button>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <ul class="note-list">
+                <?php foreach($collection as $status): ?>
+                    <li>
+                        <strong><?php echo $status->getCreatedAt() ?></strong><span class="separator">|</span><strong><?php echo $status->getStatus() ?></strong><br><small>Customer <strong
+                                class="subdue">
+                                <?php if(!$status->getIsCustomerNotified()): ?>Not<?php endif; ?> Notified </strong></small>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        </fieldset>
+    </div>
+</div>

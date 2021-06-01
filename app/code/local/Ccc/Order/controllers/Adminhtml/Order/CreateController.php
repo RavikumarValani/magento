@@ -11,9 +11,13 @@
         {
             $this->_title($this->__('Orders'))->_title($this->__('New Order'));
             $this->loadLayout();
-            
             $this->_setActiveMenu('order/order')
                 ->renderLayout();
+        }
+
+        public function gridAction()
+        {
+            $this->getResponse()->setBody($this->getLayout()->createBlock('order/adminhtml_order_quote_product_grid')->toHtml());
         }
 
         public function startAction()
@@ -139,7 +143,7 @@
                 }
 
                 Mage::getSingleton('core/session')->addSuccess("Address has been saved.");
-                // $this->_redirect('*/*/new');
+                $this->_redirect('*/*/new');
             }
             catch (Exception $e){
                 Mage::getSingleton('core/session')->addError($e->getMessage());

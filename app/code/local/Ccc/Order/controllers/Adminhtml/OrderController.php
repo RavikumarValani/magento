@@ -10,6 +10,7 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
     protected function _initSession($orderId)
     {
         $session = $this->_getSession();
+        $session->clear();
         $session->setOrderId($orderId);
         $this->_redirect('*/*/show');
     }
@@ -66,6 +67,20 @@ class Ccc_Order_Adminhtml_OrderController extends Mage_Adminhtml_Controller_Acti
         $orderModel->save();
         Mage::getSingleton('core/session')->addSuccess('Data Save Successfully...');
         $this->_redirect('*/*/');
+    }
+
+    public function saveStatusAction()
+    {
+        $history = $this->getRequest()->getPost('history');
+        $status = Mage::getModel('order/order_status');
+        $status->setData($history);
+        $status->setOrderId($this->getOrder()->getId());
+        $status->setCreatedAt(date("Y-m-d H:i:s"));
+        $status->save();
+        $order = $this->getOrder();
+        $order->setStatus($history['status']);
+        $order->save();
+        $this->_redirect('*/*/show');
     }
 
     public function deleteAction()
