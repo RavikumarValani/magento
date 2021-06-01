@@ -114,6 +114,9 @@ function updateShippingAction() {
     var element = document.getElementsByClassName("shipping-required_field input-text");
     var i;
     var flag = 0;
+    var sameAsBilling = document.getElementById("order-shipping_address_save");
+    if(!sameAsBilling.checked)
+    {
         for(i=0;i<7;i++)
         {
             if(!element[i].value)
@@ -122,6 +125,7 @@ function updateShippingAction() {
                 alert("Please enter " + element[i].id);
             }
         }
+    }
         if(flag == 0)
         {
             var form = document.getElementById('quote_form');
