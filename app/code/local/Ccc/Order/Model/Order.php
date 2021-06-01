@@ -46,8 +46,7 @@ class Ccc_Order_Model_Order extends Mage_Core_Model_Abstract
         $this->load($customerId,'customer_id');
         $orderId = $this->getId();
         $collection->getSelect()->where(new Zend_Db_Expr("order_id = {$orderId}"));
-        $items = $collection->getResource()->getReadConnection()->fetchAll($collection->getSelect());
-        return $items;
+        return $collection;
     }
     public function setShippingAddress(Ccc_Order_Model_Order_Address $address)
     {

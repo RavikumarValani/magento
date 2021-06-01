@@ -1,4 +1,5 @@
 <?php $customer = $this->getQuote()->getCustomer(); ?>
+
 <form id="quote_form" action="<?php echo $this->getSaveUrl() ?>" method="post" enctype="multipart/form-data">
     <?php echo $this->getBlockHtml('formkey')?>
     <div class="content-header">
@@ -47,12 +48,6 @@ function showAction() {
     grid.style.display = '';
 };
 
-function updateAction() {
-    var form = document.getElementById('quote_form');
-    form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
-    form.submit();
-}
-
 function formSubmit() {
     var form = document.getElementById('quote_form');
     form.setAttribute('action', "<?php echo $this->getUrl('*/*/save') ?>")
@@ -86,10 +81,59 @@ function biilingMethodSave() {
     form.setAttribute('action', "<?php echo $this->getUrl('*/*/billingMethod') ?>")
     form.submit();
 }
+// function updateAction() {
+//     var form = document.getElementById('quote_form');
+//     form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+//     form.submit();
+// }
 function addItemSelect(){
     var action = document.getElementById('order_create_search_grid_massaction-select').selectedIndex = '1';
     order_create_search_grid_massactionJsObject.apply();
 };
+
+function updateBillingAction() {
+    var element = document.getElementsByClassName("billing-required_field input-text");
+    var i;
+    var flag = 0;
+        for(i=0;i<7;i++)
+        {
+            if(!element[i].value)
+            {
+                flag = 1;
+                alert("Please enter " + element[i].id);
+            }
+        }
+        if(flag == 0)
+        {
+            var form = document.getElementById('quote_form');
+            form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+            form.submit();
+        }
+	}
+
+function updateShippingAction() {
+    var element = document.getElementsByClassName("shipping-required_field input-text");
+    var i;
+    var flag = 0;
+    var sameAsBilling = document.getElementById("order-shipping_address_save");
+    if(!sameAsBilling.checked)
+    {
+        for(i=0;i<7;i++)
+        {
+            if(!element[i].value)
+            {
+                flag = 1;
+                alert("Please enter " + element[i].id);
+            }
+        }
+    }
+        if(flag == 0)
+        {
+            var form = document.getElementById('quote_form');
+            form.setAttribute('action', "<?php echo $this->getUrl('*/*/update') ?>")
+            form.submit();
+        }
+	}
 
 </script>
 

@@ -8,9 +8,6 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Product_Grid extends Mage_Adminhtml_
         $this->setId('order_create_search_grid');
         $this->setDefaultSort('entity_id');
         // $this->setUseAjax(true);
-        if ($this->getRequest()->getParam('collapse')) {
-            $this->setIsCollapsed(true);
-        }
     }
 
     /**
@@ -87,5 +84,10 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Product_Grid extends Mage_Adminhtml_
         ));
 
         return $this;
+    }
+
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/new');
     }
 }

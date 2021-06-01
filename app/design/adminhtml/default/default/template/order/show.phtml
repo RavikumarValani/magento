@@ -5,6 +5,9 @@
         <h3 class="icon-head head-adminhtml-order"></h3>
         <h3 class="icon-head head-sales-order">Order Details of <?php echo $order->getCustomer()->getFirstname() ?></h3>
         <p class="form-buttons">
+        <button id="back_order_top_button" title="Back" type="button" class="scalable back" 
+        onclick="setLocation('<?php echo $this->getBackUrl() ?>')" >
+        <span><span><span>Back</span></span></span></button>
             <button id="reset_order_top_button" title="Cancel" type="button" class="scalable cancel"
                 onclick="deleteConfirm('Are you sure you want to cancel this order?', '<?php echo $this->getUrl('*/*/cancel') ?>')"
                 ><span><span><span>Cancel</span></span></span></button>

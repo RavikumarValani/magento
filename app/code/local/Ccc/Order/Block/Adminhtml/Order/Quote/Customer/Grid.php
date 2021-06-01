@@ -7,6 +7,8 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Customer_Grid extends Mage_Adminhtml
         parent::__construct();
         $this->setId('order_customer_grid');
         $this->setDefaultSort('entity_id');
+        $this->setUseAjax(true);
+
     }
 
     protected function _prepareCollection()

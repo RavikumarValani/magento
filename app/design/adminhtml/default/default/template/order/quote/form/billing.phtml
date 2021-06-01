@@ -5,7 +5,7 @@
 
         <div class="entry-edit-head">
             <h4 class="icon-head fieldset-legend head-billing-address">Billing Address</h4>
-            <button style="float: right;" type="button" onclick="updateAction()" name="billing"
+            <button style="float: right;" type="button" onclick="updateBillingAction()" name="billing"
                 class="scalable task">Save</button>
 
         </div>
@@ -30,10 +30,10 @@
                                     <td class="label"><label for="order-billing_address_firstname">First Name <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <input id="order-billing_address_firstname"
+                                        <input id="firstname"
                                             name="order[billing_address][firstname]"
                                             value="<?php echo $billing->getFirstname() ?>"
-                                            class=" required-entry input-text required-entry" type="text">
+                                            class="billing-required_field input-text" type="text">
                                     </td>
                                 </tr>
                                 <tr>
@@ -50,10 +50,10 @@
                                     <td class="label"><label for="order-billing_address_lastname">Last Name <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <input id="order-billing_address_lastname"
+                                        <input id="lastname"
                                             name="order[billing_address][lastname]"
                                             value="<?php echo $billing->getLastname() ?>"
-                                            class=" required-entry input-text required-entry" type="text">
+                                            class="billing-required_field input-text" type="text">
                                     </td>
                                 </tr>
                                 <tr>
@@ -72,10 +72,10 @@
                                     <td class="label"><label for="order-billing_address_street0">Street Address <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <div class="multi-input"><input id="order-billing_address_street0"
+                                        <div class="multi-input"><input id="street"
                                                 name="order[billing_address][street]"
                                                 value="<?php if(is_array($billing->getStreet())){echo $billing->getStreet()[0];} else { echo $billing->getStreet()[0] ;}  ?>"
-                                                class="input-text required-entry" type="text">
+                                                class="billing-required_field input-text" type="text">
                                         </div>
                                         <!-- <div class="multi-input"><input id="order-billing_address_street1" name="order[billing_address][street][1]" value="" class="input-text" type="text">
 </div> -->
@@ -85,18 +85,18 @@
                                     <td class="label"><label for="order-billing_address_city">City <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <input id="order-billing_address_city" name="order[billing_address][city]"
+                                        <input id="city" name="order[billing_address][city]"
                                             value="<?php echo $billing->getCity() ?>"
-                                            class=" required-entry input-text required-entry" type="text">
+                                            class="billing-required_field input-text" type="text">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="order-billing_address_country_id">Country <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <select id="order-billing_address_country_id"
+                                        <select id="country"
                                             name="order[billing_address][country_id]"
-                                            class=" required-entry required-entry select">
+                                            class="billing-required_field input-text">
                                             <?php foreach($countries as $contry): ?>
                                             <option
                                                 <?php if($billing->getCountryId() == $contry->getCountryId()): ?>selected
@@ -125,20 +125,20 @@
                                     <td class="label"><label for="order-billing_address_postcode">Zip/Postal Code <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
-                                        <input id="order-billing_address_postcode"
+                                        <input id="postcode"
                                             name="order[billing_address][postcode]"
                                             value="<?php echo $billing->getPostcode()  ?>"
-                                            class=" required-entry input-text required-entry" type="text">
+                                            class="billing-required_field input-text" type="text">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="label"><label for="order-billing_address_telephone">Telephone <span
+                                    <td class="label"><label for="telephone">Telephone <span
                                                 class="required">*</span></label></td>
                                     <td class="value">
                                         <input id="telephone"
                                             name="order[billing_address][telephone]"
                                             value="<?php echo $billing->getTelephone() ?>"
-                                            class=" required-entry input-text required-entry" type="text">
+                                            class="billing-required_field input-text" type="text">
                                     </td>
                                 </tr>
 

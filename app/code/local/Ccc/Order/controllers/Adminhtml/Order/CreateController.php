@@ -1,6 +1,7 @@
 <?php
     class Ccc_Order_Adminhtml_Order_CreateController extends Mage_Adminhtml_Controller_Action
     {
+
         protected function _getSession()
         {
             return Mage::getSingleton('order/session_quote');
@@ -10,7 +11,7 @@
         {
             $this->_title($this->__('Orders'))->_title($this->__('New Order'));
             $this->loadLayout();
-
+            
             $this->_setActiveMenu('order/order')
                 ->renderLayout();
         }
@@ -29,9 +30,10 @@
             $this->loadLayout();
             $this->getLayout()->getBlock('quote')->setQuote($this->getQuote());
             $this->_setActiveMenu('order/order')
-                ->renderLayout();
+            ->renderLayout();
+            
         }
-
+        
         public function updateAction()
         {
             try {
@@ -40,11 +42,6 @@
 
                 if(array_filter($data['billing_address']))
                 {
-                    $billing = $data['billing_address'];
-                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
-                    {
-                        throw new Exception("Enter all billing address required field value.");                
-                    }
                     $quote = $this->getQuote();
                     $billingAddress = $quote->getBillingAddress();
                     $billingAddress->addData($data['billing_address']);
@@ -56,15 +53,22 @@
                 $billingCheck = $this->getRequest()->getPost('billing_check');
                 if($billingCheck)
                 {
-                    $billing = $data['billing_address'];
-                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
-                    {
-                        throw new Exception("Enter all billing address required field value.");                
-                    }
                     $quote = $this->getQuote();
                     $customer = $quote->getCustomer();
                     $customerBillingAddress = $customer->getBillingAddress();
-                    $quoteBillingAddress = $quote->getBillingAddress()->getData();
+                    $quoteBillingAddress = $quote->getBillingAddress();
+                    $billing = $data['billing_address'];
+                    if($quoteBillingAddress->getId())
+                    {
+                        $quoteBillingAddress = $quoteBillingAddress->getData();
+                        unset($quoteBillingAddress['entity_id']);
+                        unset($quoteBillingAddress['quote_id']);
+                        unset($quoteBillingAddress['customer_address_id']);
+                    }
+                    else
+                    {
+                        $quoteBillingAddress = $billing;
+                    }
                     unset($quoteBillingAddress['entity_id']);
                     unset($quoteBillingAddress['quote_id']);
                     unset($quoteBillingAddress['customer_address_id']);
@@ -77,11 +81,6 @@
                 }
                 if(array_filter($data['shipping_address']))
                 {
-                    $shipping = $data['shipping_address'];
-                    if(!($shipping['firstname'] && $shipping['lastname'] && $shipping['country_id'] && $shipping['street'] && $shipping['city'] && $shipping['postcode'] && $shipping['telephone']))
-                    {
-                        throw new Exception("Enter all shipping address required field value.");                
-                    }
                     $quote = $this->getQuote();
                     $shippingAddress = $quote->getShippingAddress();
                     $shippingAddress->addData($data['shipping_address']);
@@ -95,15 +94,18 @@
                 {
                     
                     $billing = $data['billing_address'];
-                    if(!($billing['firstname'] && $billing['lastname'] && $billing['country_id'] && $billing['street'] && $billing['city'] && $billing['postcode'] && $billing['telephone']))
-                    {
-                        throw new Exception("Enter required field in billing address.");                
-                    }
                     $quote = $this->getQuote();
                     $billingAddress = $quote->getBillingAddress();
-                    $address = $billingAddress->getData();
-                    unset($address['entity_id']);
-
+                    if($billingAddress->getId())
+                    {
+                        $address = $billingAddress->getData();
+                        unset($address['entity_id']);
+    
+                    }
+                    else
+                    {
+                        $address = $billing;
+                    }
                     $shippingAddress = $quote->getShippingAddress();
                     $shippingAddress->addData($address);
 
@@ -118,14 +120,17 @@
                     $customerShippingAddress = $customer->getShippingAddress();
                     $shipping = $data['shipping_address'];
                     $quoteShippingAddress = $quote->getShippingAddress();
-                    if(!$quoteShippingAddress->getId())
+                    if($quoteShippingAddress->getId())
                     {
-                        throw new Exception("Enter all shipping address required field value.");                
+                        $quoteShippingAddress = $quoteShippingAddress->getData();
+                        unset($quoteShippingAddress['entity_id']);
+                        unset($quoteShippingAddress['quote_id']);
+                        unset($quoteShippingAddress['customer_address_id']);
                     }
-                    $quoteShippingAddress = $quoteShippingAddress->getData();
-                    unset($quoteShippingAddress['entity_id']);
-                    unset($quoteShippingAddress['quote_id']);
-                    unset($quoteShippingAddress['customer_address_id']);
+                    else
+                    {
+                        $quoteShippingAddress = $shipping;
+                    }
                     $customerShippingAddress->addData($quoteShippingAddress);
                     $customerShippingAddress->setParentId($quote->getCustomerId());
                     $customerShippingAddress->setIsDefaultShipping('1');
@@ -134,7 +139,7 @@
                 }
 
                 Mage::getSingleton('core/session')->addSuccess("Address has been saved.");
-                $this->_redirect('*/*/new');
+                // $this->_redirect('*/*/new');
             }
             catch (Exception $e){
                 Mage::getSingleton('core/session')->addError($e->getMessage());
@@ -262,6 +267,10 @@
                 if($qtys)
                 {
                     foreach ($qtys as $id => $qty) {
+                        if($qty['quantity'] <= 0)
+                        {
+                            throw new Exception("Enter valid Quantity.");
+                        }
                         $quoteItem = Mage::getModel('order/quote_item');
                         $quoteItem->load($id);
                         $quoteItem->setQuantity($qty['quantity']);
@@ -366,7 +375,7 @@
                    
                     $quote = $this->getQuote();
                     $quote->delete();
-                    Mage::getSingleton('core/session')->addSuccess("Order Saved.");
+                    Mage::getSingleton('core/session')->addSuccess("Order placed.");
                     $this->_redirect('*/adminhtml_order/index');
             }
             catch (Exception $e){
