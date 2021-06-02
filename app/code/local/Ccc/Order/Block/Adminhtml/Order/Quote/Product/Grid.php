@@ -80,7 +80,8 @@ class Ccc_Order_Block_Adminhtml_Order_Quote_Product_Grid extends Mage_Adminhtml_
 
         $this->getMassactionBlock()->addItem('addCart', array(
              'label'=> Mage::helper('order')->__('Add to cart'),
-             'url'  => $this->getUrl('*/*/saveProduct')
+             'url'  => $this->getUrl('*/*/saveProduct'),
+             'selected' => true
         ));
 
         return $this;
