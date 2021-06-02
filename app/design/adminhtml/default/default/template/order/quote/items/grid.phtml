@@ -1,0 +1,85 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-cart"><?php echo $this->getHeaderText() ?></h4>
+        <button class="scalable add" style="float: right;" onclick="showAction()" type="button"><span>Add Products</span></button>
+    </div>
+<?php $_items = $this->getQuote()->getItems() ?>
+<?php if (count($_items) == 0): ?>
+    <div class="grid" id="items_grid">
+        <table cellspacing="0" class="data order-tables">
+            <col />
+            <col width="100" />
+            <col width="40" />
+            <col width="100" />
+            <col width="80" />
+            <col width="100" />
+            <col width="80" />
+            <thead>
+                <tr class="headings">
+                    <th class="no-link"><?php echo $this->helper('order')->__('Product') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Price') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Qty') ?></th>
+
+                    <th class="no-link last"><?php echo $this->helper('order')->__('Action') ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="even">
+                    <td class="empty-text a-center" colspan="100"><?php echo $this->helper('order')->__('No ordered items') ?></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+<div>
+    <?php if(count($_items)>10): ?>
+    <p class="a-right">
+        <?php echo $this->getButtonHtml($this->helper('order')->__('Update Items and Qty\'s'),'order.itemsUpdate()'); ?>
+    </p>
+    <?php endif; ?>
+    <div class="grid" id="order-items_grid">
+        <table cellspacing="0" class="data order-tables">
+            <thead>
+                <tr class="headings">
+                    <th class="no-link"><?php echo $this->helper('order')->__('Product') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Price') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Qty') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Sub Total') ?></th>
+                    <th class="no-link"><?php echo $this->helper('order')->__('Total') ?></th>
+
+                    <th class="no-link last"><?php echo $this->helper('order')->__('Action') ?></th>
+                </tr>
+            </thead>
+            <?php if(!$_items): ?>
+            <tbody>
+                <tr class="even">
+                    <td class="empty-text a-center" colspan="100"><?php echo $this->helper('order')->__('No ordered items') ?></td>
+                </tr>
+            </tbody>
+            <?php else: ?>
+            <?php foreach($_items as $key =>$item): ?>
+            <tbody>
+                <tr>
+                <td><?php echo $item->getSku() ?><br><?php echo $item->getName() ?></td>
+                <td> <?php echo $item->getPrice() ?></td>
+                <td><input type="number" min="1" name="product[<?php echo $item->getId() ?>][quantity]" value="<?php echo $item->getQuantity() ?>"></td>
+                <td> ₹<?php echo $item->getPrice() * $item->getQuantity() ?></td>
+                <td> ₹<?php echo $item->getPrice() * $item->getQuantity() ?></td>
+                <td><button name="delete[<?php echo $item->getId() ?>]" onclick="deleteItem()">Delete</button></td>
+                </tr>
+            </tbody>
+            <?php endforeach; ?>
+            <?php endif; ?>
+            <tfoot>
+                <tr>
+                    <td class="a-left" colspan="2"><?php echo $this->helper('sales')->__('Total %d product(s)', count($_items)) ?></td>
+                    <td colspan="1" class="a-right">Subtotal:</td>
+                    <td class="price"><strong><span class="price">₹<?php echo $this->getQuote()->getSubTotal() ?></span></strong></td>
+                    <td class="price"><strong><span class="price">₹<?php echo $this->getQuote()->getSubTotal() ?></span></strong></td>
+                    <td><button class="scalable update" style="float: right;" onclick="saveProduct()" type="button"><span>Update Quantity</span></button></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+<?php endif; ?>
+</div>    

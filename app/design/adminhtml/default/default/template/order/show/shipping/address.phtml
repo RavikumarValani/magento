@@ -1,0 +1,19 @@
+<?php $address = $this->getOrder()->getShippingAddress() ?>
+<div class="box-right">
+    <!--Billing Address-->
+    <div class="entry-edit" >
+        <div class="entry-edit-head" >
+            <h4 class="icon-head head-billing-address">Shipping Address</h4>
+        </div>
+        <fieldset >
+            <address><?php echo $address->getFirstname() ?> <?php echo $address->getLastname() ?><br>
+
+            <?php echo $address->getStreet()[0] ?><br>
+            <?php echo $address->getCity() ?>,<?php echo $address->getPostcode() ?><br>
+            <?php echo $this->getCountyName($address->getCountryId()) ?><br>
+                T: <?php echo $address->getTelephone() ?>
+
+            </address>
+        </fieldset>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Ccc_Order>
+            <version>1.0.2</version>
+        </Ccc_Order>
+    </modules>
+
+    <admin>
+        <routers>
+            <order>
+                <use>admin</use>
+                <args>
+                    <module>Ccc_Order</module>
+                    <frontName>order</frontName>
+                </args>
+            </order>
+        </routers>
+    </admin>
+    <global>
+        
+        <blocks>
+            <order>
+                <class>Ccc_Order_Block</class>
+            </order>
+            <!-- <adminhtml>
+                <rewrite>
+                    <sales_order_grid>Ccc_Order_Block_Adminhtml_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml> -->
+            
+        </blocks>
+
+        <models>
+            <customer>
+                <rewrite>
+                    <customer>Ccc_Order_Model_Customer</customer>
+                </rewrite>
+            </customer>
+            <order>
+                <class>Ccc_Order_Model</class>
+                <resourceModel>order_resource</resourceModel>
+            </order>
+            <order_resource>
+                <class>Ccc_Order_Model_Resource</class>
+                <entities>
+                    <order>
+                        <table>ccc_order</table>
+                    </order>
+                    <order_address>
+                        <table>ccc_order_address</table>
+                    </order_address>
+                    <order_item>
+                        <table>ccc_order_item</table>
+                    </order_item>
+                    <quote>
+                        <table>ccc_order_quote</table>
+                    </quote>
+                    <quote_address>
+                        <table>ccc_order_quote_address</table>
+                    </quote_address>
+                    <quote_item>
+                        <table>ccc_order_quote_item</table>
+                    </quote_item>
+                    <order_status>
+                        <table>ccc_order_status</table>
+                    </order_status>
+                </entities>
+            </order_resource>
+        </models>
+        <helpers>
+            <order>
+                <class>Ccc_Order_Helper</class>
+            </order>
+        </helpers>
+        <resources>
+            <order_setup>
+                <setup>
+                    <module>Ccc_Order</module>
+                </setup>
+            </order_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <order>
+                    <file>order.xml</file>
+                </order>
+            </updates>
+        </layout>
+    </adminhtml>
+
+    <frontend>
+        <layout>
+            <updates>
+                <order>
+                    <file>order.xml</file>
+                </order>
+            </updates>
+        </layout>
+    </frontend>
+</config>
